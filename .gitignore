@@ -1,0 +1,21 @@
+# Env
+.env
+.env.local
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Data / outputs / logs
+/data/raw/*
+!/data/sample/
+output/
+logs/
+docker/postgres/data/
+pgdata/
+
+# Hop local metadata (se houver)
+.hop/
+
