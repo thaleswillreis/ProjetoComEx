@@ -15,6 +15,7 @@ output/
 logs/
 docker/postgres/data/
 pgdata/
+config/
 
 # Hop local metadata (se houver)
 .hop/
