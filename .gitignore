@@ -20,3 +20,5 @@ config/
 # Hop local metadata (se houver)
 .hop/
 
+# Arquivos excluídos
+lixeira/
