@@ -37,17 +37,17 @@
     </hop>
     <hop>
       <from>04_ReadCSV</from>
-      <to>05_Metadata_RowNumber</to>
+      <to>05_MetadataRowNumber</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>05_Metadata_RowNumber</from>
-      <to>06_Metadata_LoadDate</to>
+      <from>05_MetadataRowNumber</from>
+      <to>06_MetadataLoadDate</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>06_Metadata_LoadDate</from>
-      <to>07_NormalizeColumnNames</to>
+      <from>06_MetadataLoadDate</from>
+      <to>07_ColumnNames</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -80,8 +80,8 @@
     <rownum>N</rownum>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>48</yloc>
+      <xloc>96</xloc>
+      <yloc>64</yloc>
     </GUI>
   </transform>
   <transform>
@@ -160,8 +160,8 @@
     <unique_rows>N</unique_rows>
     <attributes/>
     <GUI>
-      <xloc>240</xloc>
-      <yloc>48</yloc>
+      <xloc>272</xloc>
+      <yloc>64</yloc>
     </GUI>
   </transform>
   <transform>
@@ -178,8 +178,8 @@
     <linesrange>1</linesrange>
     <attributes/>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>48</yloc>
+      <xloc>464</xloc>
+      <yloc>64</yloc>
     </GUI>
   </transform>
   <transform>
@@ -387,12 +387,12 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>560</xloc>
-      <yloc>80</yloc>
+      <xloc>640</xloc>
+      <yloc>112</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>05_Metadata_RowNumber</name>
+    <name>05_MetadataRowNumber</name>
     <type>Sequence</type>
     <description/>
     <distribute>Y</distribute>
@@ -411,12 +411,12 @@
     <valuename>linha no arquivo de origem</valuename>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>160</yloc>
+      <xloc>464</xloc>
+      <yloc>176</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>06_Metadata_LoadDate</name>
+    <name>06_MetadataLoadDate</name>
     <type>SystemInfo</type>
     <description/>
     <distribute>Y</distribute>
@@ -434,12 +434,12 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>192</yloc>
+      <xloc>272</xloc>
+      <yloc>176</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>07_NormalizeColumnNames</name>
+    <name>07_ColumnNames</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -550,26 +550,26 @@
         <length>-2</length>
         <name>filename</name>
         <precision>-2</precision>
-        <rename>file_name</rename>
+        <rename>origem_arquivo</rename>
       </field>
       <field>
         <length>-2</length>
         <name>linha no arquivo de origem</name>
         <precision>-2</precision>
-        <rename>linha_original</rename>
+        <rename>linha_numero</rename>
       </field>
       <field>
         <length>-2</length>
         <name>data_carregamento</name>
         <precision>-2</precision>
-        <rename>data_carga_arquivo</rename>
+        <rename>data_carga_dados</rename>
       </field>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>192</yloc>
+      <xloc>96</xloc>
+      <yloc>240</yloc>
     </GUI>
   </transform>
   <transform_error_handling>
