@@ -1,7 +1,9 @@
 -- SCHEMA DE AUDITORIA
 CREATE SCHEMA IF NOT EXISTS audit;
 
--- TABELA DE AUDIT / LOG
+-- ============================================================================
+-- LOG DE CARGAS
+-- ============================================================================
 CREATE TABLE IF NOT EXISTS audit.load_log (
   log_id BIGSERIAL PRIMARY KEY,
   job_name TEXT,

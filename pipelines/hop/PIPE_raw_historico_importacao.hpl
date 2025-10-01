@@ -80,8 +80,8 @@
     <rownum>N</rownum>
     <attributes/>
     <GUI>
-      <xloc>96</xloc>
-      <yloc>64</yloc>
+      <xloc>80</xloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
@@ -160,8 +160,8 @@
     <unique_rows>N</unique_rows>
     <attributes/>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>64</yloc>
+      <xloc>256</xloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
@@ -178,8 +178,8 @@
     <linesrange>1</linesrange>
     <attributes/>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>64</yloc>
+      <xloc>448</xloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
@@ -387,8 +387,8 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>640</xloc>
-      <yloc>112</yloc>
+      <xloc>624</xloc>
+      <yloc>96</yloc>
     </GUI>
   </transform>
   <transform>
@@ -411,8 +411,8 @@
     <valuename>linha no arquivo de origem</valuename>
     <attributes/>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>176</yloc>
+      <xloc>448</xloc>
+      <yloc>160</yloc>
     </GUI>
   </transform>
   <transform>
@@ -434,8 +434,8 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>176</yloc>
+      <xloc>256</xloc>
+      <yloc>160</yloc>
     </GUI>
   </transform>
   <transform>
@@ -568,8 +568,8 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>96</xloc>
-      <yloc>240</yloc>
+      <xloc>80</xloc>
+      <yloc>224</yloc>
     </GUI>
   </transform>
   <transform_error_handling>

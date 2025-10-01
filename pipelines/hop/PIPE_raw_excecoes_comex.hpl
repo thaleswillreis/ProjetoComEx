@@ -103,7 +103,7 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
+      <xloc>64</xloc>
       <yloc>48</yloc>
     </GUI>
   </transform>
@@ -130,7 +130,7 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>224</xloc>
+      <xloc>208</xloc>
       <yloc>48</yloc>
     </GUI>
   </transform>
@@ -154,7 +154,7 @@
     <valuename>linha no arquivo de origem</valuename>
     <attributes/>
     <GUI>
-      <xloc>416</xloc>
+      <xloc>400</xloc>
       <yloc>48</yloc>
     </GUI>
   </transform>
@@ -177,7 +177,7 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>608</xloc>
+      <xloc>592</xloc>
       <yloc>96</yloc>
     </GUI>
   </transform>
@@ -233,7 +233,7 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>416</xloc>
+      <xloc>400</xloc>
       <yloc>176</yloc>
     </GUI>
   </transform>
