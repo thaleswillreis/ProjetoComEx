@@ -50,6 +50,11 @@
       <to>07_ColumnNames</to>
       <enabled>Y</enabled>
     </hop>
+    <hop>
+      <from>07_ColumnNames</from>
+      <to>08_SaveToPostgres</to>
+      <enabled>Y</enabled>
+    </hop>
   </order>
   <transform>
     <name>01_GetNewFiles</name>
@@ -570,6 +575,119 @@
     <GUI>
       <xloc>80</xloc>
       <yloc>224</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>08_SaveToPostgres</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <commit>1000</commit>
+    <connection>Postgres_COMEX</connection>
+    <fields>
+      <field>
+        <column_name>operacao</column_name>
+        <stream_name>operacao</stream_name>
+      </field>
+      <field>
+        <column_name>tipo</column_name>
+        <stream_name>tipo</stream_name>
+      </field>
+      <field>
+        <column_name>numero_invoice</column_name>
+        <stream_name>numero_invoice</stream_name>
+      </field>
+      <field>
+        <column_name>incoterm</column_name>
+        <stream_name>incoterm</stream_name>
+      </field>
+      <field>
+        <column_name>origem</column_name>
+        <stream_name>origem</stream_name>
+      </field>
+      <field>
+        <column_name>id_pais_destino</column_name>
+        <stream_name>id_pais_destino</stream_name>
+      </field>
+      <field>
+        <column_name>local_destino</column_name>
+        <stream_name>local_destino</stream_name>
+      </field>
+      <field>
+        <column_name>id_operador_logistico</column_name>
+        <stream_name>id_operador_logistico</stream_name>
+      </field>
+      <field>
+        <column_name>doc_embarque</column_name>
+        <stream_name>doc_embarque</stream_name>
+      </field>
+      <field>
+        <column_name>peso_kg</column_name>
+        <stream_name>peso_kg</stream_name>
+      </field>
+      <field>
+        <column_name>volume_cbm</column_name>
+        <stream_name>volume_cbm</stream_name>
+      </field>
+      <field>
+        <column_name>tipo_servico</column_name>
+        <stream_name>tipo_servico</stream_name>
+      </field>
+      <field>
+        <column_name>data_coleta_raw</column_name>
+        <stream_name>data_coleta_raw</stream_name>
+      </field>
+      <field>
+        <column_name>data_entrega_raw</column_name>
+        <stream_name>data_entrega_raw</stream_name>
+      </field>
+      <field>
+        <column_name>prazo_contratado_raw</column_name>
+        <stream_name>prazo_contratado_raw</stream_name>
+      </field>
+      <field>
+        <column_name>cod_excecao</column_name>
+        <stream_name>cod_excecao</stream_name>
+      </field>
+      <field>
+        <column_name>origem_arquivo</column_name>
+        <stream_name>origem_arquivo</stream_name>
+      </field>
+      <field>
+        <column_name>linha_numero</column_name>
+        <stream_name>linha_numero</stream_name>
+      </field>
+      <field>
+        <column_name>data_carga_dados</column_name>
+        <stream_name>data_carga_dados</stream_name>
+      </field>
+    </fields>
+    <ignore_errors>N</ignore_errors>
+    <only_when_have_rows>N</only_when_have_rows>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <return_field/>
+    <return_keys>N</return_keys>
+    <schema>stg</schema>
+    <specify_fields>Y</specify_fields>
+    <table>historico_importacao_raw</table>
+    <tablename_field/>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_in_table>Y</tablename_in_table>
+    <truncate>N</truncate>
+    <use_batch>Y</use_batch>
+    <attributes/>
+    <GUI>
+      <xloc>256</xloc>
+      <yloc>288</yloc>
     </GUI>
   </transform>
   <transform_error_handling>
