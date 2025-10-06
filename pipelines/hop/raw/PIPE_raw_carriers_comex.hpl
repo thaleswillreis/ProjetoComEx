@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pipeline>
   <info>
-    <name>PIPE_raw_excecoes_comex</name>
+    <name>PIPE_raw_carriers_comex</name>
     <name_sync_with_filename>Y</name_sync_with_filename>
     <description/>
     <extended_description/>
@@ -13,9 +13,9 @@
     <transform_performance_capturing_delay>1000</transform_performance_capturing_delay>
     <transform_performance_capturing_size_limit>100</transform_performance_capturing_size_limit>
     <created_user>-</created_user>
-    <created_date>2025/09/29 08:48:27.324</created_date>
+    <created_date>2025/09/29 09:09:36.022</created_date>
     <modified_user>-</modified_user>
-    <modified_date>2025/09/29 08:48:27.324</modified_date>
+    <modified_date>2025/09/29 09:09:36.022</modified_date>
   </info>
   <notepads>
   </notepads>
@@ -57,11 +57,11 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <filename>${PROJECT_HOME}/data/raw/excecoes__2025-09-29.csv</filename>
+    <filename>${PROJECT_HOME}/data/raw/carriers__2025-09-29.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>;</separator>
+    <separator>,</separator>
     <enclosure>"</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
@@ -73,35 +73,24 @@
     <encoding>UTF-8</encoding>
     <fields>
       <field>
-        <name>Cod Excecao</name>
-        <type>String</type>
-        <format/>
+        <name>ID Carrier</name>
+        <type>Integer</type>
+        <format>#</format>
         <currency>$</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>3</length>
-        <precision>-1</precision>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>Descricao Desvio</name>
+        <name>Operador Logistico</name>
         <type>String</type>
         <format/>
         <currency>$</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>35</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>Responsavel</name>
-        <type>String</type>
-        <format/>
-        <currency>$</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>18</length>
+        <length>13</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -127,7 +116,7 @@
       <field>
         <length>-1</length>
         <name>arquivo_origem</name>
-        <nullif>/home/will/Documentos/Analise de Dados/ProjetosHop/ProjetoComEx/data/raw/excecoes__2025-09-29.csv</nullif>
+        <nullif>/home/will/Documentos/Analise de Dados/ProjetosHop/ProjetoComEx/data/raw/carriers__2025-09-29.csv</nullif>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
         <type>String</type>
@@ -200,21 +189,15 @@
     <fields>
       <field>
         <length>-2</length>
-        <name>Cod Excecao</name>
+        <name>ID Carrier</name>
         <precision>-2</precision>
-        <rename>cod_excecao</rename>
+        <rename>id_carrier</rename>
       </field>
       <field>
         <length>-2</length>
-        <name>Descricao Desvio</name>
+        <name>Operador Logistico</name>
         <precision>-2</precision>
-        <rename>descricao_desvio</rename>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>Responsavel</name>
-        <precision>-2</precision>
-        <rename>responsavel</rename>
+        <rename>operador_logistico</rename>
       </field>
       <field>
         <length>-2</length>
@@ -257,16 +240,12 @@
     <connection>Postgres_COMEX</connection>
     <fields>
       <field>
-        <column_name>cod_excecao</column_name>
-        <stream_name>cod_excecao</stream_name>
+        <column_name>id_carrier</column_name>
+        <stream_name>id_carrier</stream_name>
       </field>
       <field>
-        <column_name>descricao_desvio</column_name>
-        <stream_name>descricao_desvio</stream_name>
-      </field>
-      <field>
-        <column_name>responsavel</column_name>
-        <stream_name>responsavel</stream_name>
+        <column_name>operador_logistico</column_name>
+        <stream_name>operador_logistico</stream_name>
       </field>
       <field>
         <column_name>origem_arquivo</column_name>
@@ -291,11 +270,11 @@
     <return_keys>N</return_keys>
     <schema>stg</schema>
     <specify_fields>Y</specify_fields>
-    <table>excecoes_comex_raw</table>
+    <table>carriers_comex_raw</table>
     <tablename_field/>
     <tablename_in_field>N</tablename_in_field>
     <tablename_in_table>Y</tablename_in_table>
-    <truncate>N</truncate>
+    <truncate>Y</truncate>
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
