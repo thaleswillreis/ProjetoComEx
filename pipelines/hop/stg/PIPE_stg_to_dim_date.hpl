@@ -21,7 +21,7 @@
   </notepads>
   <order>
     <hop>
-      <from>01_LeituraDadosBD</from>
+      <from>01_LerDadosBD</from>
       <to>02_UnpivotData</to>
       <enabled>Y</enabled>
     </hop>
@@ -77,7 +77,7 @@
     </hop>
   </order>
   <transform>
-    <name>01_LeituraDadosBD</name>
+    <name>01_LerDadosBD</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
