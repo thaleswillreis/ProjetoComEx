@@ -21,7 +21,7 @@
   </notepads>
   <order>
     <hop>
-      <from>01_LeituraDadosBD</from>
+      <from>01_LerDadosRawBD</from>
       <to>02_ConversaoTipos</to>
       <enabled>Y</enabled>
     </hop>
@@ -42,7 +42,7 @@
     </hop>
   </order>
   <transform>
-    <name>01_LeituraDadosBD</name>
+    <name>01_LerDadosRawBD</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -67,7 +67,7 @@ FROM stg.geodados_flags_raw;</sql>
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
+      <xloc>112</xloc>
       <yloc>80</yloc>
     </GUI>
   </transform>
@@ -84,14 +84,8 @@ FROM stg.geodados_flags_raw;</sql>
     </partitioning>
     <fields>
       <meta>
-        <conversion_mask/>
-        <currency_symbol/>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
         <decimal_symbol>.</decimal_symbol>
-        <encoding/>
-        <grouping_symbol/>
         <length>-1</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>area_km2</name>
@@ -102,14 +96,7 @@ FROM stg.geodados_flags_raw;</sql>
         <type>Number</type>
       </meta>
       <meta>
-        <conversion_mask/>
-        <currency_symbol/>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <decimal_symbol/>
-        <encoding/>
-        <grouping_symbol/>
         <length>-1</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>populacao</name>
@@ -120,14 +107,7 @@ FROM stg.geodados_flags_raw;</sql>
         <type>Integer</type>
       </meta>
       <meta>
-        <conversion_mask/>
-        <currency_symbol/>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <decimal_symbol/>
-        <encoding/>
-        <grouping_symbol/>
         <length>-2</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>pais_ptbr</name>
@@ -135,7 +115,7 @@ FROM stg.geodados_flags_raw;</sql>
         <rename>nome_ptbr</rename>
         <roundingType>half_even</roundingType>
         <storage_type/>
-        <type/>
+        <type>None</type>
       </meta>
       <select_unspecified>N</select_unspecified>
     </fields>
@@ -158,10 +138,6 @@ FROM stg.geodados_flags_raw;</sql>
     </partitioning>
     <fields>
       <field>
-        <currency/>
-        <decimal/>
-        <format/>
-        <group/>
         <length>-1</length>
         <name>current_flag</name>
         <nullif>true</nullif>
@@ -170,13 +146,8 @@ FROM stg.geodados_flags_raw;</sql>
         <type>Boolean</type>
       </field>
       <field>
-        <currency/>
-        <decimal/>
-        <format/>
-        <group/>
         <length>-1</length>
         <name>effective_to</name>
-        <nullif/>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
         <type>Date</type>
@@ -215,8 +186,8 @@ FROM stg.geodados_flags_raw;</sql>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>688</xloc>
-      <yloc>80</yloc>
+      <xloc>464</xloc>
+      <yloc>208</yloc>
     </GUI>
   </transform>
   <transform>
@@ -286,22 +257,19 @@ FROM stg.geodados_flags_raw;</sql>
     <only_when_have_rows>N</only_when_have_rows>
     <partitioning_daily>N</partitioning_daily>
     <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
     <partitioning_monthly>Y</partitioning_monthly>
-    <return_field/>
     <return_keys>N</return_keys>
     <schema>dw_dim</schema>
     <specify_fields>Y</specify_fields>
     <table>dim_pais</table>
-    <tablename_field/>
     <tablename_in_field>N</tablename_in_field>
     <tablename_in_table>Y</tablename_in_table>
     <truncate>N</truncate>
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>880</xloc>
-      <yloc>80</yloc>
+      <xloc>272</xloc>
+      <yloc>208</yloc>
     </GUI>
   </transform>
   <transform_error_handling>

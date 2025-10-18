@@ -37,7 +37,7 @@
     </hop>
     <hop>
       <from>04_Metadados(timestamps)</from>
-      <to>05_InsertUpdateBD</to>
+      <to>05_InsertOuUpdateBD</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -139,7 +139,7 @@ FROM stg.carriers_comex_raw;
     </fields>
     <attributes/>
     <GUI>
-      <xloc>432</xloc>
+      <xloc>416</xloc>
       <yloc>112</yloc>
     </GUI>
   </transform>
@@ -171,11 +171,11 @@ FROM stg.carriers_comex_raw;
     <attributes/>
     <GUI>
       <xloc>272</xloc>
-      <yloc>176</yloc>
+      <yloc>160</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>05_InsertUpdateBD</name>
+    <name>05_InsertOuUpdateBD</name>
     <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
@@ -203,7 +203,7 @@ FROM stg.carriers_comex_raw;
       <value>
         <name>nome_operador_logistico</name>
         <rename>nome_operador_logistico</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>current_flag</name>
@@ -213,7 +213,7 @@ FROM stg.carriers_comex_raw;
       <value>
         <name>effective_to</name>
         <rename>effective_to</rename>
-        <update>N</update>
+        <update>Y</update>
       </value>
       <value>
         <name>effective_from</name>
@@ -235,7 +235,7 @@ FROM stg.carriers_comex_raw;
     <attributes/>
     <GUI>
       <xloc>80</xloc>
-      <yloc>176</yloc>
+      <yloc>160</yloc>
     </GUI>
   </transform>
   <transform_error_handling>
