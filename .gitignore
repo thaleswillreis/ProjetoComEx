@@ -1,6 +1,7 @@
 # Env
 .env
 .env.local
+hop.env
 
 # OS / IDE
 .DS_Store
@@ -22,3 +23,10 @@ config/
 
 # Arquivos excluídos
 lixeira/
+
+# Ambientes com credenciais
+**/environments/*.json
+dev.json
+prod.json
+test.json
+

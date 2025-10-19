@@ -42,7 +42,7 @@
     </hop>
     <hop>
       <from>05_AjustarColunas</from>
-      <to>Insert / update</to>
+      <to>06_Insert / update</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -172,14 +172,7 @@ WHERE
     </partitioning>
     <fields>
       <meta>
-        <conversion_mask/>
-        <currency_symbol/>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <decimal_symbol/>
-        <encoding/>
-        <grouping_symbol/>
         <length>10</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>incoterm_code</name>
@@ -190,14 +183,7 @@ WHERE
         <type>String</type>
       </meta>
       <meta>
-        <conversion_mask/>
-        <currency_symbol/>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <decimal_symbol/>
-        <encoding/>
-        <grouping_symbol/>
         <length>50</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>descricao</name>
@@ -208,14 +194,7 @@ WHERE
         <type>String</type>
       </meta>
       <meta>
-        <conversion_mask/>
-        <currency_symbol/>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <decimal_symbol/>
-        <encoding/>
-        <grouping_symbol/>
         <length>-2</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>created_at</name>
@@ -234,7 +213,7 @@ WHERE
     </GUI>
   </transform>
   <transform>
-    <name>Insert / update</name>
+    <name>06_Insert / update</name>
     <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>

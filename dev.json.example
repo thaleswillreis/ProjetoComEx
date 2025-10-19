@@ -1,0 +1,19 @@
+{
+  "name": "Dev",
+  "description": "Ambiente de desenvolvimento",
+  "purpose": "development",
+  "variables": [
+    {
+      "name": "EMAIL_HOST",
+      "value": "CONFIGURE_AQUI O SERVIDOR SMTP",
+      "description": "DESCRIÇÃO OPCIONAL"
+    },
+    {
+      "name": "EMAIL_PORT",
+      "value": "CONFIGURA AQUI A PORTA DO SERVIDOR",
+      "description": "DESCRIÇÃO OPCIONAL"
+    },
+    ...
+  ]
+}
+
