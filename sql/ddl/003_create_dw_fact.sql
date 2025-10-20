@@ -1,4 +1,6 @@
+-- ============================================================================
 -- SCHEMA DE FATO
+-- ============================================================================
 CREATE SCHEMA IF NOT EXISTS dw_fact;
 
 -- ============================================================================
@@ -25,6 +27,7 @@ CREATE TABLE IF NOT EXISTS dw_fact.fato_importacao (
   doc_embarque TEXT,
   peso_kg NUMERIC,
   volume_cbm NUMERIC,
+  tipo TEXT, -- 🔹 novo campo (ex: Marítimo, Aéreo, Ferroviário)
   tipo_servico TEXT,
   prazo_contratado INT,
   numero_invoice TEXT,
