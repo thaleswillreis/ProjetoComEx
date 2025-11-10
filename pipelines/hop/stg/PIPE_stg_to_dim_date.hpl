@@ -94,7 +94,7 @@
   data_coleta_raw,
   data_entrega_raw
 FROM stg.historico_importacao_raw
-WHERE COALESCE(data_coleta_raw, data_entrega_raw, prazo_contratado_raw) IS NOT NULL;</sql>
+WHERE COALESCE(data_coleta_raw, data_entrega_raw) IS NOT NULL;</sql>
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>

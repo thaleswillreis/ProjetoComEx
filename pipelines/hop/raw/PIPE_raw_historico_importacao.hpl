@@ -315,23 +315,23 @@
       <field>
         <name>Peso (kg)</name>
         <type>Number</type>
-        <format>#.#</format>
+        <format>#.###</format>
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
         <length>15</length>
-        <precision>1</precision>
+        <precision>3</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>Volume (cbm)</name>
         <type>Number</type>
-        <format>#.#</format>
+        <format>#.###</format>
         <currency>$</currency>
         <decimal>.</decimal>
         <group>,</group>
         <length>15</length>
-        <precision>1</precision>
+        <precision>3</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
@@ -672,14 +672,11 @@
     <only_when_have_rows>N</only_when_have_rows>
     <partitioning_daily>N</partitioning_daily>
     <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
     <partitioning_monthly>Y</partitioning_monthly>
-    <return_field/>
     <return_keys>N</return_keys>
     <schema>stg</schema>
     <specify_fields>Y</specify_fields>
     <table>historico_importacao_raw</table>
-    <tablename_field/>
     <tablename_in_field>N</tablename_in_field>
     <tablename_in_table>Y</tablename_in_table>
     <truncate>Y</truncate>

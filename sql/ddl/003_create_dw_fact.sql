@@ -27,15 +27,17 @@ CREATE TABLE IF NOT EXISTS dw_fact.fato_importacao (
   doc_embarque TEXT,
   peso_kg NUMERIC,
   volume_cbm NUMERIC,
-  tipo TEXT, -- 🔹 novo campo (ex: Marítimo, Aéreo, Ferroviário)
-  tipo_servico TEXT,
+  tipo TEXT,             --  Modal de transporte (Marítimo, Aéreo, etc)
+  tipo_servico TEXT,      -- Ex: Importação / Exportação
   prazo_contratado INT,
   numero_invoice TEXT,
   operacao TEXT,
+  local_destino TEXT,     --  Nova coluna: cidade de destino (ex: Santos, Curitiba, etc.)
 
   created_at TIMESTAMP DEFAULT now()
 );
 
+-- Índices para otimização de consultas
 CREATE INDEX IF NOT EXISTS idx_fato_ingest_id 
   ON dw_fact.fato_importacao(ingest_id);
 
