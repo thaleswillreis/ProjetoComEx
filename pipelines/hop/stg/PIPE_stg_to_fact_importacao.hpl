@@ -21,13 +21,13 @@
   </notepads>
   <order>
     <hop>
-      <from>01_ReadRawBD</from>
+      <from>01_ReadRawDB</from>
       <to>02_AdjustDateAndCountry</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>02_AdjustDateAndCountry</from>
-      <to>03_AdjustColumns</to>
+      <to>03_FormatData</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
@@ -36,7 +36,7 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>03_AdjustColumns</from>
+      <from>03_FormatData</from>
       <to>04_AddCol(data_coleta_sk)</to>
       <enabled>Y</enabled>
     </hop>
@@ -101,143 +101,133 @@
       <enabled>Y</enabled>
     </hop>
     <hop>
+      <from>12_DataBranch</from>
+      <to>13_ SortMainFlow</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>12.1_ComparisonFlow</from>
+      <to>12.1.1_ SortComparison</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>12.2_ReadDwFact</from>
+      <to>12.2.1_ReferenceFlow</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>12.2.1_ReferenceFlow</from>
+      <to>12.2.2_ SortReference</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>12.1.1_ SortComparison</from>
+      <to>12.2_MergeRefComp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>12.2.2_ SortReference</from>
+      <to>12.2_MergeRefComp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>12.2_MergeRefComp</from>
+      <to>12.3_SortRefComp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>12.3_SortRefComp</from>
+      <to>14_MergeNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>13_ SortMainFlow</from>
+      <to>14_MergeNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>14_MergeNewData</from>
+      <to>15_SelectColumns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>19_FilterNewData</from>
+      <to>19.1_RemoveColumns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>19_FilterNewData</from>
+      <to>19.2_FilterChangedData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>19.2_FilterChangedData</from>
+      <to>19.2.2_UnmodifiedData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>19.2_FilterChangedData</from>
+      <to>19.2.1_CloseOldRecord</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>11_OrganizeColumns</from>
+      <to>12_DataBranch</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>19.1_RemoveColumns</from>
+      <to>19.1.1_InsertNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>16_AddMetadata</from>
+      <to>17_AddMetadata</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
       <from>10_AddCol(excecao_sk)</from>
-      <to>11_AddMetadata</to>
+      <to>11_OrganizeColumns</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>11_AddMetadata</from>
-      <to>12_SelectColumns</to>
+      <from>17_AddMetadata</from>
+      <to>18_CheckData</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>12_SelectColumns</from>
-      <to>13 _AddChecksum</to>
+      <from>18_CheckData</from>
+      <to>19_FilterNewData</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>13 _AddChecksum</from>
-      <to>14_DataBranch</to>
+      <from>19.2.1_CloseOldRecord</from>
+      <to>19.2.1.1_RemoveColumns</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>14_DataBranch</from>
-      <to>15_ SortInflow(Fluxo Principal)</to>
+      <from>19.2.1.1_RemoveColumns</from>
+      <to>19.2.1.2_AddMetadata</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>14_DataBranch</from>
-      <to>14.1_AddColumn</to>
+      <from>19.2.1.2_AddMetadata</from>
+      <to>19.2.1.3_UpdateData</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>14.1_AddColumn</from>
-      <to>14.1.1_ComparisonFlow</to>
+      <from>12_DataBranch</from>
+      <to>12.1_ComparisonFlow</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>14.1.1_ComparisonFlow</from>
-      <to>14.1.2_ SortComparison</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>14.2_ReadDwFact</from>
-      <to>14.2.1_ReferenceFlow</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>14.2.1_ReferenceFlow</from>
-      <to>14.2.2_ SortReference</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>14.1.2_ SortComparison</from>
-      <to>14.3_MergeRefComp</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>14.2.2_ SortReference</from>
-      <to>14.3_MergeRefComp</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>14.3_MergeRefComp</from>
-      <to>14.4_SortRefComp</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>14.4_SortRefComp</from>
-      <to>16_MergeNewData</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>15_ SortInflow(Fluxo Principal)</from>
-      <to>16_MergeNewData</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>16_MergeNewData</from>
-      <to>17_SelectColumns</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>17_SelectColumns</from>
-      <to>18_AddMetadata</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>18_AddMetadata</from>
-      <to>19_AddMetadata</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>19_AddMetadata</from>
-      <to>20_FilterNewData</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>20_FilterNewData</from>
-      <to>20.1_RemoveColumns</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>20.1_RemoveColumns</from>
-      <to>20.1.1_InsertNewData</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>20_FilterNewData</from>
-      <to>20.2_FilterChangedData</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>20.2_FilterChangedData</from>
-      <to>20.2.2_UnmodifiedData</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>20.2_FilterChangedData</from>
-      <to>20.2.1_OldUpdatableRows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>20.2.1_OldUpdatableRows</from>
-      <to>20.2.1.2_CloseOldRecord</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>20.2.1_OldUpdatableRows</from>
-      <to>20.2.1.1_SelectColuns</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>20.2.1.1_SelectColuns</from>
-      <to>20.2.1.1.1_UpdateData</to>
+      <from>15_SelectColumns</from>
+      <to>16_AddMetadata</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <transform>
-    <name>01_ReadRawBD</name>
+    <name>01_ReadRawDB</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -278,8 +268,8 @@ WHERE
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>48</yloc>
+      <xloc>96</xloc>
+      <yloc>32</yloc>
     </GUI>
   </transform>
   <transform>
@@ -326,12 +316,12 @@ WHERE
     </fields>
     <attributes/>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>48</yloc>
+      <xloc>352</xloc>
+      <yloc>32</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>03_AdjustColumns</name>
+    <name>03_FormatData</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -540,8 +530,8 @@ WHERE
     </fields>
     <attributes/>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>48</yloc>
+      <xloc>592</xloc>
+      <yloc>32</yloc>
     </GUI>
   </transform>
   <transform>
@@ -574,8 +564,8 @@ WHERE
     </lookup>
     <attributes/>
     <GUI>
-      <xloc>672</xloc>
-      <yloc>48</yloc>
+      <xloc>848</xloc>
+      <yloc>32</yloc>
     </GUI>
   </transform>
   <transform>
@@ -608,8 +598,8 @@ WHERE
     </lookup>
     <attributes/>
     <GUI>
-      <xloc>912</xloc>
-      <yloc>48</yloc>
+      <xloc>1072</xloc>
+      <yloc>32</yloc>
     </GUI>
   </transform>
   <transform>
@@ -642,8 +632,8 @@ WHERE
     </lookup>
     <attributes/>
     <GUI>
-      <xloc>1200</xloc>
-      <yloc>48</yloc>
+      <xloc>1408</xloc>
+      <yloc>32</yloc>
     </GUI>
   </transform>
   <transform>
@@ -676,8 +666,8 @@ WHERE
     </lookup>
     <attributes/>
     <GUI>
-      <xloc>1200</xloc>
-      <yloc>272</yloc>
+      <xloc>1408</xloc>
+      <yloc>256</yloc>
     </GUI>
   </transform>
   <transform>
@@ -710,8 +700,8 @@ WHERE
     </lookup>
     <attributes/>
     <GUI>
-      <xloc>944</xloc>
-      <yloc>272</yloc>
+      <xloc>1120</xloc>
+      <yloc>256</yloc>
     </GUI>
   </transform>
   <transform>
@@ -744,8 +734,8 @@ WHERE
     </lookup>
     <attributes/>
     <GUI>
-      <xloc>624</xloc>
-      <yloc>272</yloc>
+      <xloc>720</xloc>
+      <yloc>256</yloc>
     </GUI>
   </transform>
   <transform>
@@ -766,14 +756,15 @@ WHERE
     excecao_sk,
     cod_excecao
 FROM
-    dw_dim.dim_excecao;
+    dw_dim.dim_excecao
+WHERE effective_to = '9999-12-31';
 
 </sql>
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>160</yloc>
+      <xloc>496</xloc>
+      <yloc>144</yloc>
     </GUI>
   </transform>
   <transform>
@@ -806,35 +797,12 @@ FROM
     </lookup>
     <attributes/>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>272</yloc>
+      <xloc>496</xloc>
+      <yloc>256</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>11_AddMetadata</name>
-    <type>SystemInfo</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <name>created_at</name>
-        <type>system date (variable)</type>
-      </field>
-    </fields>
-    <attributes/>
-    <GUI>
-      <xloc>240</xloc>
-      <yloc>272</yloc>
-    </GUI>
-  </transform>
-  <transform>
-    <name>12_SelectColumns</name>
+    <name>11_OrganizeColumns</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -1034,17 +1002,6 @@ FROM
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>-2</length>
-        <lenient_string_to_number>N</lenient_string_to_number>
-        <name>created_at</name>
-        <precision>-2</precision>
-        <rename>created_at</rename>
-        <roundingType>half_even</roundingType>
-        <storage_type/>
-        <type>Date</type>
-      </meta>
-      <meta>
-        <date_format_lenient>N</date_format_lenient>
         <length>20</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>tipo</name>
@@ -1084,168 +1041,12 @@ FROM
     </fields>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>272</yloc>
+      <xloc>96</xloc>
+      <yloc>256</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>13 _AddChecksum</name>
-    <type>CheckSum</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <checksumtype>MD5</checksumtype>
-    <fields>
-      <field>
-        <name>operacao</name>
-      </field>
-      <field>
-        <name>tipo</name>
-      </field>
-      <field>
-        <name>peso_kg</name>
-      </field>
-      <field>
-        <name>volume_cbm</name>
-      </field>
-      <field>
-        <name>tipo_servico</name>
-      </field>
-      <field>
-        <name>data_coleta</name>
-      </field>
-      <field>
-        <name>data_entrega</name>
-      </field>
-      <field>
-        <name>prazo_contratado</name>
-      </field>
-      <field>
-        <name>local_destino</name>
-      </field>
-      <field>
-        <name>data_coleta_sk</name>
-      </field>
-      <field>
-        <name>data_entrega_sk</name>
-      </field>
-      <field>
-        <name>pais_origem_sk</name>
-      </field>
-      <field>
-        <name>pais_destino_sk</name>
-      </field>
-      <field>
-        <name>carrier_sk</name>
-      </field>
-      <field>
-        <name>incoterm_sk</name>
-      </field>
-      <field>
-        <name>excecao_sk</name>
-      </field>
-    </fields>
-    <resultType>string</resultType>
-    <resultfieldName>checksum_linha</resultfieldName>
-    <attributes/>
-    <GUI>
-      <xloc>80</xloc>
-      <yloc>416</yloc>
-    </GUI>
-  </transform>
-  <transform>
-    <name>14.1.1_ComparisonFlow</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <length>-2</length>
-        <name>fato_sk</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>doc_embarque</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>numero_invoice</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>data_entrega</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>excecao_sk</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>prazo_contratado</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>carrier_sk</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>peso_kg</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>volume_cbm</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>tipo_servico</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>local_destino</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>tipo</name>
-        <precision>-2</precision>
-      </field>
-      <field>
-        <length>-2</length>
-        <name>checksum_linha</name>
-        <precision>-2</precision>
-        <rename>fact_checksum</rename>
-      </field>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <GUI>
-      <xloc>416</xloc>
-      <yloc>480</yloc>
-    </GUI>
-  </transform>
-  <transform>
-    <name>14.1.2_ SortComparison</name>
+    <name>12.1.1_ SortComparison</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1263,7 +1064,7 @@ FROM
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
-        <name>doc_embarque</name>
+        <name>numero_invoice</name>
         <presorted>N</presorted>
       </field>
       <field>
@@ -1271,7 +1072,7 @@ FROM
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
-        <name>numero_invoice</name>
+        <name>doc_embarque</name>
         <presorted>N</presorted>
       </field>
     </fields>
@@ -1280,38 +1081,12 @@ FROM
     <unique_rows>N</unique_rows>
     <attributes/>
     <GUI>
-      <xloc>624</xloc>
-      <yloc>480</yloc>
+      <xloc>528</xloc>
+      <yloc>448</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>14.1_AddColumn</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <field>
-        <length>-1</length>
-        <name>fato_sk</name>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-        <type>Integer</type>
-      </field>
-    </fields>
-    <attributes/>
-    <GUI>
-      <xloc>240</xloc>
-      <yloc>480</yloc>
-    </GUI>
-  </transform>
-  <transform>
-    <name>14.2.1_ReferenceFlow</name>
+    <name>12.1_ComparisonFlow</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -1326,16 +1101,49 @@ FROM
         <date_format_lenient>N</date_format_lenient>
         <length>15</length>
         <lenient_string_to_number>N</lenient_string_to_number>
-        <name>fato_sk</name>
+        <name>ingest_id</name>
         <precision>0</precision>
-        <rename>fato_sk</rename>
+        <rename>ingest_id</rename>
         <roundingType>half_even</roundingType>
         <storage_type/>
         <type>Integer</type>
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>30</length>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>operacao</name>
+        <precision>-2</precision>
+        <rename>operacao</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>50</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>tipo</name>
+        <precision>-2</precision>
+        <rename>tipo</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>numero_invoice</name>
+        <precision>-2</precision>
+        <rename>numero_invoice</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>doc_embarque</name>
         <precision>-2</precision>
@@ -1346,14 +1154,47 @@ FROM
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>10</length>
+        <length>-2</length>
         <lenient_string_to_number>N</lenient_string_to_number>
-        <name>numero_invoice</name>
+        <name>peso_kg</name>
         <precision>-2</precision>
-        <rename>numero_invoice</rename>
+        <rename>peso_kg</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>BigNumber</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>volume_cbm</name>
+        <precision>-2</precision>
+        <rename>volume_cbm</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>BigNumber</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>tipo_servico</name>
+        <precision>-2</precision>
+        <rename>tipo_servico</rename>
         <roundingType>half_even</roundingType>
         <storage_type/>
         <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>data_coleta</name>
+        <precision>-2</precision>
+        <rename>data_coleta</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Date</type>
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
@@ -1368,23 +1209,66 @@ FROM
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>15</length>
+        <length>9</length>
         <lenient_string_to_number>N</lenient_string_to_number>
-        <name>excecao_sk</name>
+        <name>prazo_contratado</name>
         <precision>0</precision>
-        <rename>excecao_sk</rename>
+        <rename>prazo_contratado</rename>
         <roundingType>half_even</roundingType>
         <storage_type/>
         <type>Integer</type>
       </meta>
       <meta>
-        <conversion_mask>#</conversion_mask>
         <date_format_lenient>N</date_format_lenient>
-        <length>10</length>
+        <length>2147483647</length>
         <lenient_string_to_number>N</lenient_string_to_number>
-        <name>prazo_contratado</name>
+        <name>local_destino</name>
+        <precision>-2</precision>
+        <rename>local_destino</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>data_coleta_sk</name>
         <precision>0</precision>
-        <rename>prazo_contratado</rename>
+        <rename>data_coleta_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>data_entrega_sk</name>
+        <precision>0</precision>
+        <rename>data_entrega_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>pais_origem_sk</name>
+        <precision>0</precision>
+        <rename>pais_origem_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>pais_destino_sk</name>
+        <precision>0</precision>
+        <rename>pais_destino_sk</rename>
         <roundingType>half_even</roundingType>
         <storage_type/>
         <type>Integer</type>
@@ -1401,56 +1285,72 @@ FROM
         <type>Integer</type>
       </meta>
       <meta>
-        <conversion_mask>#.###</conversion_mask>
         <date_format_lenient>N</date_format_lenient>
-        <decimal_symbol>.</decimal_symbol>
         <length>15</length>
         <lenient_string_to_number>N</lenient_string_to_number>
-        <name>peso_kg</name>
-        <precision>3</precision>
-        <rename>peso_kg</rename>
+        <name>incoterm_sk</name>
+        <precision>0</precision>
+        <rename>incoterm_sk</rename>
         <roundingType>half_even</roundingType>
         <storage_type/>
-        <type>Number</type>
-      </meta>
-      <meta>
-        <conversion_mask>#.###</conversion_mask>
-        <date_format_lenient>N</date_format_lenient>
-        <decimal_symbol>.</decimal_symbol>
-        <length>15</length>
-        <lenient_string_to_number>N</lenient_string_to_number>
-        <name>volume_cbm</name>
-        <precision>3</precision>
-        <rename>volume_cbm</rename>
-        <roundingType>half_even</roundingType>
-        <storage_type/>
-        <type>Number</type>
+        <type>Integer</type>
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>20</length>
+        <length>15</length>
         <lenient_string_to_number>N</lenient_string_to_number>
-        <name>tipo_servico</name>
+        <name>excecao_sk</name>
+        <precision>0</precision>
+        <rename>excecao_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>448</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>12.2.1_ReferenceFlow</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>ingest_id</name>
+        <precision>0</precision>
+        <rename>ingest_id</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>operacao</name>
         <precision>-2</precision>
-        <rename>tipo_servico</rename>
+        <rename>operacao</rename>
         <roundingType>half_even</roundingType>
         <storage_type/>
         <type>String</type>
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>20</length>
-        <lenient_string_to_number>N</lenient_string_to_number>
-        <name>local_destino</name>
-        <precision>-2</precision>
-        <rename>local_destino</rename>
-        <roundingType>half_even</roundingType>
-        <storage_type/>
-        <type>String</type>
-      </meta>
-      <meta>
-        <date_format_lenient>N</date_format_lenient>
-        <length>20</length>
+        <length>50</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>tipo</name>
         <precision>-2</precision>
@@ -1463,23 +1363,188 @@ FROM
         <date_format_lenient>N</date_format_lenient>
         <length>2147483647</length>
         <lenient_string_to_number>N</lenient_string_to_number>
-        <name>fact_checksum</name>
+        <name>numero_invoice</name>
         <precision>-2</precision>
-        <rename>fact_checksum</rename>
+        <rename>numero_invoice</rename>
         <roundingType>half_even</roundingType>
         <storage_type/>
         <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>doc_embarque</name>
+        <precision>-2</precision>
+        <rename>doc_embarque</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>peso_kg</name>
+        <precision>-2</precision>
+        <rename>peso_kg</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>BigNumber</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>volume_cbm</name>
+        <precision>-2</precision>
+        <rename>volume_cbm</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>BigNumber</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>tipo_servico</name>
+        <precision>-2</precision>
+        <rename>tipo_servico</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>data_coleta</name>
+        <precision>-2</precision>
+        <rename>data_coleta</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Date</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>data_entrega</name>
+        <precision>-2</precision>
+        <rename>data_entrega</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Date</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>9</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>prazo_contratado</name>
+        <precision>0</precision>
+        <rename>prazo_contratado</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>local_destino</name>
+        <precision>-2</precision>
+        <rename>local_destino</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>data_coleta_sk</name>
+        <precision>0</precision>
+        <rename>data_coleta_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>data_entrega_sk</name>
+        <precision>0</precision>
+        <rename>data_entrega_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>pais_origem_sk</name>
+        <precision>0</precision>
+        <rename>pais_origem_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>pais_destino_sk</name>
+        <precision>0</precision>
+        <rename>pais_destino_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>carrier_sk</name>
+        <precision>0</precision>
+        <rename>carrier_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>incoterm_sk</name>
+        <precision>0</precision>
+        <rename>incoterm_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>excecao_sk</name>
+        <precision>0</precision>
+        <rename>excecao_sk</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
       </meta>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>480</xloc>
-      <yloc>384</yloc>
+      <xloc>352</xloc>
+      <yloc>352</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>14.2.2_ SortReference</name>
+    <name>12.2.2_ SortReference</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1497,7 +1562,7 @@ FROM
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
-        <name>doc_embarque</name>
+        <name>numero_invoice</name>
         <presorted>N</presorted>
       </field>
       <field>
@@ -1505,7 +1570,7 @@ FROM
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
-        <name>numero_invoice</name>
+        <name>doc_embarque</name>
         <presorted>N</presorted>
       </field>
     </fields>
@@ -1514,12 +1579,56 @@ FROM
     <unique_rows>N</unique_rows>
     <attributes/>
     <GUI>
-      <xloc>704</xloc>
-      <yloc>384</yloc>
+      <xloc>528</xloc>
+      <yloc>352</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>14.2_ReadDwFact</name>
+    <name>12.2_MergeRefComp</name>
+    <type>MergeRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <keys>
+      <key>numero_invoice</key>
+      <key>doc_embarque</key>
+    </keys>
+    <values>
+      <value>operacao</value>
+      <value>tipo</value>
+      <value>peso_kg</value>
+      <value>volume_cbm</value>
+      <value>tipo_servico</value>
+      <value>data_coleta</value>
+      <value>data_entrega</value>
+      <value>prazo_contratado</value>
+      <value>local_destino</value>
+      <value>data_coleta_sk</value>
+      <value>data_entrega_sk</value>
+      <value>pais_origem_sk</value>
+      <value>pais_destino_sk</value>
+      <value>carrier_sk</value>
+      <value>incoterm_sk</value>
+      <value>excecao_sk</value>
+    </values>
+    <flag_field>flag_diff</flag_field>
+    <reference>12.2.2_ SortReference</reference>
+    <compare>12.1.1_ SortComparison</compare>
+    <compare>
+    </compare>
+    <attributes/>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>448</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>12.2_ReadDwFact</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1533,79 +1642,37 @@ FROM
     <execute_each_row>N</execute_each_row>
     <limit>0</limit>
     <sql>SELECT
-  fato_sk,
-  doc_embarque,
+  ingest_id,
+  operacao,
+  tipo,
   numero_invoice,
-  data_entrega,
-  excecao_sk,
-  prazo_contratado,
-  carrier_sk,
+  doc_embarque,
   peso_kg,
   volume_cbm,
   tipo_servico,
+  data_coleta,
+  data_entrega,
+  prazo_contratado,
   local_destino,
-  tipo,
-  md5(
-    coalesce(cast(data_entrega as text),'') || '|' ||
-    coalesce(cast(excecao_sk as text),'') || '|' ||
-    coalesce(cast(prazo_contratado as text),'') || '|' ||
-    coalesce(cast(carrier_sk as text),'') || '|' ||
-    coalesce(cast(peso_kg as text),'') || '|' ||
-    coalesce(cast(volume_cbm as text),'') || '|' ||
-    coalesce(tipo_servico,'') || '|' ||
-    coalesce(local_destino,'') || '|' ||
-    coalesce(tipo,'')
-  ) AS fact_checksum
+  data_coleta_sk,
+  data_entrega_sk,
+  pais_origem_sk,
+  pais_destino_sk,
+  carrier_sk,
+  incoterm_sk,
+  excecao_sk
 FROM dw_fact.fato_importacao
 WHERE effective_to = '9999-12-31';
 </sql>
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>240</xloc>
-      <yloc>384</yloc>
+      <xloc>192</xloc>
+      <yloc>352</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>14.3_MergeRefComp</name>
-    <type>MergeRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <keys>
-      <key>doc_embarque</key>
-      <key>numero_invoice</key>
-    </keys>
-    <values>
-      <value>data_entrega</value>
-      <value>excecao_sk</value>
-      <value>prazo_contratado</value>
-      <value>carrier_sk</value>
-      <value>peso_kg</value>
-      <value>volume_cbm</value>
-      <value>tipo_servico</value>
-      <value>local_destino</value>
-      <value>tipo</value>
-      <value>fact_checksum</value>
-    </values>
-    <flag_field>flag_diff</flag_field>
-    <reference>14.2.2_ SortReference</reference>
-    <compare>14.1.2_ SortComparison</compare>
-    <compare>
-    </compare>
-    <attributes/>
-    <GUI>
-      <xloc>832</xloc>
-      <yloc>480</yloc>
-    </GUI>
-  </transform>
-  <transform>
-    <name>14.4_SortRefComp</name>
+    <name>12.3_SortRefComp</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1623,7 +1690,7 @@ WHERE effective_to = '9999-12-31';
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
-        <name>doc_embarque</name>
+        <name>numero_invoice</name>
         <presorted>N</presorted>
       </field>
       <field>
@@ -1631,7 +1698,7 @@ WHERE effective_to = '9999-12-31';
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
-        <name>numero_invoice</name>
+        <name>doc_embarque</name>
         <presorted>N</presorted>
       </field>
     </fields>
@@ -1640,12 +1707,12 @@ WHERE effective_to = '9999-12-31';
     <unique_rows>N</unique_rows>
     <attributes/>
     <GUI>
-      <xloc>1008</xloc>
-      <yloc>480</yloc>
+      <xloc>896</xloc>
+      <yloc>448</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>14_DataBranch</name>
+    <name>12_DataBranch</name>
     <type>RowsToResult</type>
     <description/>
     <distribute>N</distribute>
@@ -1657,12 +1724,12 @@ WHERE effective_to = '9999-12-31';
     </partitioning>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>576</yloc>
+      <xloc>96</xloc>
+      <yloc>544</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>15_ SortInflow(Fluxo Principal)</name>
+    <name>13_ SortMainFlow</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1680,7 +1747,7 @@ WHERE effective_to = '9999-12-31';
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
-        <name>doc_embarque</name>
+        <name>numero_invoice</name>
         <presorted>N</presorted>
       </field>
       <field>
@@ -1688,7 +1755,7 @@ WHERE effective_to = '9999-12-31';
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
         <collator_strength>0</collator_strength>
-        <name>numero_invoice</name>
+        <name>doc_embarque</name>
         <presorted>N</presorted>
       </field>
     </fields>
@@ -1697,12 +1764,12 @@ WHERE effective_to = '9999-12-31';
     <unique_rows>N</unique_rows>
     <attributes/>
     <GUI>
-      <xloc>688</xloc>
-      <yloc>576</yloc>
+      <xloc>544</xloc>
+      <yloc>544</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>16_MergeNewData</name>
+    <name>14_MergeNewData</name>
     <type>MergeJoin</type>
     <description/>
     <distribute>Y</distribute>
@@ -1721,16 +1788,16 @@ WHERE effective_to = '9999-12-31';
       <key>numero_invoice</key>
       <key>doc_embarque</key>
     </keys_2>
-    <transform1>15_ SortInflow(Fluxo Principal)</transform1>
-    <transform2>14.4_SortRefComp</transform2>
+    <transform1>13_ SortMainFlow</transform1>
+    <transform2>12.3_SortRefComp</transform2>
     <attributes/>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>576</yloc>
+      <xloc>1072</xloc>
+      <yloc>544</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>17_SelectColumns</name>
+    <name>15_SelectColumns</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -1742,25 +1809,19 @@ WHERE effective_to = '9999-12-31';
     </partitioning>
     <fields>
       <remove>
-        <name>checksum_linha</name>
+        <name>ingest_id_1</name>
       </remove>
       <remove>
-        <name>doc_embarque_1</name>
+        <name>operacao_1</name>
+      </remove>
+      <remove>
+        <name>tipo_1</name>
       </remove>
       <remove>
         <name>numero_invoice_1</name>
       </remove>
       <remove>
-        <name>data_entrega_1</name>
-      </remove>
-      <remove>
-        <name>excecao_sk_1</name>
-      </remove>
-      <remove>
-        <name>prazo_contratado_1</name>
-      </remove>
-      <remove>
-        <name>carrier_sk_1</name>
+        <name>doc_embarque_1</name>
       </remove>
       <remove>
         <name>peso_kg_1</name>
@@ -1772,24 +1833,48 @@ WHERE effective_to = '9999-12-31';
         <name>tipo_servico_1</name>
       </remove>
       <remove>
+        <name>data_coleta_1</name>
+      </remove>
+      <remove>
+        <name>data_entrega_1</name>
+      </remove>
+      <remove>
+        <name>prazo_contratado_1</name>
+      </remove>
+      <remove>
         <name>local_destino_1</name>
       </remove>
       <remove>
-        <name>tipo_1</name>
+        <name>data_coleta_sk_1</name>
       </remove>
       <remove>
-        <name>fact_checksum</name>
+        <name>data_entrega_sk_1</name>
+      </remove>
+      <remove>
+        <name>pais_origem_sk_1</name>
+      </remove>
+      <remove>
+        <name>pais_destino_sk_1</name>
+      </remove>
+      <remove>
+        <name>carrier_sk_1</name>
+      </remove>
+      <remove>
+        <name>incoterm_sk_1</name>
+      </remove>
+      <remove>
+        <name>excecao_sk_1</name>
       </remove>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>1184</xloc>
-      <yloc>704</yloc>
+      <xloc>1248</xloc>
+      <yloc>544</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>18_AddMetadata</name>
+    <name>16_AddMetadata</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
@@ -1812,12 +1897,12 @@ WHERE effective_to = '9999-12-31';
     </fields>
     <attributes/>
     <GUI>
-      <xloc>1008</xloc>
-      <yloc>704</yloc>
+      <xloc>1392</xloc>
+      <yloc>592</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>19_AddMetadata</name>
+    <name>17_AddMetadata</name>
     <type>SystemInfo</type>
     <description/>
     <distribute>Y</distribute>
@@ -1832,15 +1917,154 @@ WHERE effective_to = '9999-12-31';
         <name>effective_from</name>
         <type>system date (variable)</type>
       </field>
+      <field>
+        <name>created_at</name>
+        <type>system date (variable)</type>
+      </field>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>832</xloc>
-      <yloc>704</yloc>
+      <xloc>1248</xloc>
+      <yloc>640</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>20.1.1_InsertNewData</name>
+    <name>18_CheckData</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <length>-2</length>
+        <name>ingest_id</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>operacao</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>tipo</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>numero_invoice</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>doc_embarque</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>peso_kg</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>volume_cbm</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>tipo_servico</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>data_coleta</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>data_entrega</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>prazo_contratado</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>local_destino</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>data_coleta_sk</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>data_entrega_sk</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>pais_origem_sk</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>pais_destino_sk</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>carrier_sk</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>incoterm_sk</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>excecao_sk</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>created_at</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>effective_to</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>effective_from</name>
+        <precision>-2</precision>
+      </field>
+      <field>
+        <length>-2</length>
+        <name>flag_diff</name>
+        <precision>-2</precision>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>1088</xloc>
+      <yloc>640</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>19.1.1_InsertNewData</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1934,12 +2158,12 @@ WHERE effective_to = '9999-12-31';
         <stream_name>created_at</stream_name>
       </field>
       <field>
-        <column_name>effective_to</column_name>
-        <stream_name>effective_to</stream_name>
-      </field>
-      <field>
         <column_name>effective_from</column_name>
         <stream_name>effective_from</stream_name>
+      </field>
+      <field>
+        <column_name>effective_to</column_name>
+        <stream_name>effective_to</stream_name>
       </field>
     </fields>
     <ignore_errors>N</ignore_errors>
@@ -1957,12 +2181,12 @@ WHERE effective_to = '9999-12-31';
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>656</yloc>
+      <xloc>496</xloc>
+      <yloc>640</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>20.1_RemoveColumns</name>
+    <name>19.1_RemoveColumns</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -1974,7 +2198,30 @@ WHERE effective_to = '9999-12-31';
     </partitioning>
     <fields>
       <remove>
-        <name>fato_sk</name>
+        <name>flag_diff</name>
+      </remove>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>640</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>19.2.1.1_RemoveColumns</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <remove>
+        <name>effective_to</name>
       </remove>
       <remove>
         <name>flag_diff</name>
@@ -1984,11 +2231,39 @@ WHERE effective_to = '9999-12-31';
     <attributes/>
     <GUI>
       <xloc>496</xloc>
-      <yloc>656</yloc>
+      <yloc>752</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>20.2.1.1.1_UpdateData</name>
+    <name>19.2.1.2_AddMetadata</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <format>yyyy-MM-dd</format>
+        <length>-1</length>
+        <name>effective_to</name>
+        <nullif>9999-12-31</nullif>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <type>Date</type>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>288</xloc>
+      <yloc>752</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>19.2.1.3_UpdateData</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -2082,12 +2357,12 @@ WHERE effective_to = '9999-12-31';
         <stream_name>created_at</stream_name>
       </field>
       <field>
-        <column_name>effective_to</column_name>
-        <stream_name>effective_to</stream_name>
-      </field>
-      <field>
         <column_name>effective_from</column_name>
         <stream_name>effective_from</stream_name>
+      </field>
+      <field>
+        <column_name>effective_to</column_name>
+        <stream_name>effective_to</stream_name>
       </field>
     </fields>
     <ignore_errors>N</ignore_errors>
@@ -2105,41 +2380,15 @@ WHERE effective_to = '9999-12-31';
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>896</yloc>
+      <xloc>96</xloc>
+      <yloc>752</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>20.2.1.1_SelectColuns</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <fields>
-      <remove>
-        <name>fato_sk</name>
-      </remove>
-      <remove>
-        <name>flag_diff</name>
-      </remove>
-      <select_unspecified>N</select_unspecified>
-    </fields>
-    <attributes/>
-    <GUI>
-      <xloc>80</xloc>
-      <yloc>768</yloc>
-    </GUI>
-  </transform>
-  <transform>
-    <name>20.2.1.2_CloseOldRecord</name>
+    <name>19.2.1_CloseOldRecord</name>
     <type>Update</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
     <partitioning>
@@ -2152,8 +2401,13 @@ WHERE effective_to = '9999-12-31';
     <lookup>
       <key>
         <condition>=</condition>
-        <field>fato_sk</field>
-        <name>fato_sk</name>
+        <field>numero_invoice</field>
+        <name>numero_invoice</name>
+      </key>
+      <key>
+        <condition>=</condition>
+        <field>doc_embarque</field>
+        <name>doc_embarque</name>
       </key>
       <schema>dw_fact</schema>
       <table>fato_importacao</table>
@@ -2166,33 +2420,12 @@ WHERE effective_to = '9999-12-31';
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>288</xloc>
-      <yloc>896</yloc>
+      <xloc>720</xloc>
+      <yloc>752</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>20.2.1_OldUpdatableRows</name>
-    <type>CloneRow</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <addcloneflag>N</addcloneflag>
-    <addclonenum>N</addclonenum>
-    <nrcloneinfield>N</nrcloneinfield>
-    <nrclones>0</nrclones>
-    <attributes/>
-    <GUI>
-      <xloc>288</xloc>
-      <yloc>768</yloc>
-    </GUI>
-  </transform>
-  <transform>
-    <name>20.2.2_UnmodifiedData</name>
+    <name>19.2.2_UnmodifiedData</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
@@ -2204,12 +2437,12 @@ WHERE effective_to = '9999-12-31';
     </partitioning>
     <attributes/>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>896</yloc>
+      <xloc>1136</xloc>
+      <yloc>752</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>20.2_FilterChangedData</name>
+    <name>19.2_FilterChangedData</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -2237,16 +2470,16 @@ WHERE effective_to = '9999-12-31';
         </value>
       </condition>
     </compare>
-    <send_false_to>20.2.2_UnmodifiedData</send_false_to>
-    <send_true_to>20.2.1_OldUpdatableRows</send_true_to>
+    <send_false_to>19.2.2_UnmodifiedData</send_false_to>
+    <send_true_to>19.2.1_CloseOldRecord</send_true_to>
     <attributes/>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>768</yloc>
+      <xloc>928</xloc>
+      <yloc>752</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>20_FilterNewData</name>
+    <name>19_FilterNewData</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -2259,7 +2492,39 @@ WHERE effective_to = '9999-12-31';
     <compare>
       <condition>
         <conditions>
+          <condition>
+            <conditions>
 </conditions>
+            <function>=</function>
+            <leftvalue>flag_diff</leftvalue>
+            <negated>N</negated>
+            <operator>-</operator>
+            <value>
+              <isnull>N</isnull>
+              <length>-1</length>
+              <name>constant</name>
+              <precision>-1</precision>
+              <text>new</text>
+              <type>String</type>
+            </value>
+          </condition>
+          <condition>
+            <conditions>
+</conditions>
+            <function>=</function>
+            <leftvalue>flag_diff</leftvalue>
+            <negated>N</negated>
+            <operator>OR</operator>
+            <value>
+              <isnull>N</isnull>
+              <length>-1</length>
+              <name>constant</name>
+              <precision>-1</precision>
+              <text>deleted</text>
+              <type>String</type>
+            </value>
+          </condition>
+        </conditions>
         <function>=</function>
         <leftvalue>flag_diff</leftvalue>
         <negated>N</negated>
@@ -2274,12 +2539,12 @@ WHERE effective_to = '9999-12-31';
         </value>
       </condition>
     </compare>
-    <send_false_to>20.2_FilterChangedData</send_false_to>
-    <send_true_to>20.1_RemoveColumns</send_true_to>
+    <send_false_to>19.2_FilterChangedData</send_false_to>
+    <send_true_to>19.1_RemoveColumns</send_true_to>
     <attributes/>
     <GUI>
-      <xloc>656</xloc>
-      <yloc>704</yloc>
+      <xloc>928</xloc>
+      <yloc>640</yloc>
     </GUI>
   </transform>
   <transform>
@@ -2304,8 +2569,8 @@ FROM dw_dim.dim_date;
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>784</xloc>
-      <yloc>160</yloc>
+      <xloc>944</xloc>
+      <yloc>144</yloc>
     </GUI>
   </transform>
   <transform>
@@ -2327,14 +2592,13 @@ FROM dw_dim.dim_date;
     iso_3166_alpha2
 FROM
     dw_dim.dim_pais
-WHERE
-    current_flag = TRUE;
+WHERE effective_to = '9999-12-31';
 </sql>
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>1088</xloc>
-      <yloc>160</yloc>
+      <xloc>1280</xloc>
+      <yloc>144</yloc>
     </GUI>
   </transform>
   <transform>
@@ -2354,16 +2618,14 @@ WHERE
     <sql>SELECT
     carrier_sk,
     id_carrier
-FROM
-    dw_dim.dim_carrier
-WHERE
-    current_flag = TRUE;
+FROM dw_dim.dim_carrier
+WHERE effective_to = '9999-12-31';
 </sql>
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>944</xloc>
-      <yloc>160</yloc>
+      <xloc>1120</xloc>
+      <yloc>144</yloc>
     </GUI>
   </transform>
   <transform>
@@ -2384,13 +2646,14 @@ WHERE
 	incoterm_sk,
 	incoterm_code
 FROM
-    dw_dim.dim_incoterm;
+    dw_dim.dim_incoterm
+WHERE effective_to = '9999-12-31';
 </sql>
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>624</xloc>
-      <yloc>160</yloc>
+      <xloc>720</xloc>
+      <yloc>144</yloc>
     </GUI>
   </transform>
   <transform_error_handling>

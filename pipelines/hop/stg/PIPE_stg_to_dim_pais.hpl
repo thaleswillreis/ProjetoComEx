@@ -21,28 +21,128 @@
   </notepads>
   <order>
     <hop>
-      <from>01_LerDadosRawBD</from>
-      <to>02_ConversaoTipos</to>
+      <from>01_ReadRawDB</from>
+      <to>02_TypeConversion</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>02_ConversaoTipos</from>
-      <to>03_ValoresEstaticosControle</to>
+      <from>03.1.1_ SortComparison</from>
+      <to>03.3_MergeRefComp</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>03_ValoresEstaticosControle</from>
-      <to>04_ValoresDinamicosControle</to>
+      <from>03.1_ComparisonFlow</from>
+      <to>03.1.1_ SortComparison</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>04_ValoresDinamicosControle</from>
-      <to>05_TabelaDimPais</to>
+      <from>03.2.1_ReferenceFlow</from>
+      <to>03.2.2_ SortReference</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>03.2.2_ SortReference</from>
+      <to>03.3_MergeRefComp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>03.2_ReadDwCarrier</from>
+      <to>03.2.1_ReferenceFlow</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>03.3_MergeRefComp</from>
+      <to>03.4_SortRefComp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>03.4_SortRefComp</from>
+      <to>05_MergeNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>03_DataBranch</from>
+      <to>03.1_ComparisonFlow</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>03_DataBranch</from>
+      <to>04_ SortMainFlow</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>04_ SortMainFlow</from>
+      <to>05_MergeNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>05_MergeNewData</from>
+      <to>06_SelectColumns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>06_SelectColumns</from>
+      <to>07_Metadata</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>07_Metadata</from>
+      <to>08_Metadata</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>08_Metadata</from>
+      <to>09_FilterNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09.1_RemoveColumns</from>
+      <to>09.1.1_InsertNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09.2.1.1_SelectColuns</from>
+      <to>09.2.1.2_Metadata</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09.2.1.2_Metadata</from>
+      <to>09.2.1.3_UpdateData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09.2.1_CloseOldRecord</from>
+      <to>09.2.1.1_SelectColuns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09.2_FilterChangedData</from>
+      <to>09.2.1_CloseOldRecord</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09.2_FilterChangedData</from>
+      <to>09.2.2_UnmodifiedData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09_FilterNewData</from>
+      <to>09.1_RemoveColumns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09_FilterNewData</from>
+      <to>09.2_FilterChangedData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>02_TypeConversion</from>
+      <to>03_DataBranch</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <transform>
-    <name>01_LerDadosRawBD</name>
+    <name>01_ReadRawDB</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -67,12 +167,12 @@ FROM stg.geodados_flags_raw;</sql>
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>112</xloc>
-      <yloc>80</yloc>
+      <xloc>96</xloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>02_ConversaoTipos</name>
+    <name>02_TypeConversion</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -86,7 +186,7 @@ FROM stg.geodados_flags_raw;</sql>
       <meta>
         <date_format_lenient>N</date_format_lenient>
         <decimal_symbol>.</decimal_symbol>
-        <length>-1</length>
+        <length>-2</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>area_km2</name>
         <precision>2</precision>
@@ -97,7 +197,7 @@ FROM stg.geodados_flags_raw;</sql>
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>-1</length>
+        <length>-2</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>populacao</name>
         <precision>0</precision>
@@ -121,12 +221,521 @@ FROM stg.geodados_flags_raw;</sql>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>80</yloc>
+      <xloc>96</xloc>
+      <yloc>240</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>03_ValoresEstaticosControle</name>
+    <name>03.1.1_ SortComparison</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>Y</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>iso_3166_alpha2</name>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>iso_3166_alpha3</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>784</xloc>
+      <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>03.1_ComparisonFlow</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>iso_3166_alpha2</name>
+        <precision>-2</precision>
+        <rename>iso_3166_alpha2</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>3</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>iso_3166_alpha3</name>
+        <precision>-2</precision>
+        <rename>iso_3166_alpha3</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>nome_ptbr</name>
+        <precision>-2</precision>
+        <rename>nome_ptbr</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>capital</name>
+        <precision>-2</precision>
+        <rename>capital</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <decimal_symbol>.</decimal_symbol>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>area_km2</name>
+        <precision>2</precision>
+        <rename>area_km2</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Number</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>populacao</name>
+        <precision>0</precision>
+        <rename>populacao</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>url_bandeira</name>
+        <precision>-2</precision>
+        <rename>url_bandeira</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>416</xloc>
+      <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>03.2.1_ReferenceFlow</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>iso_3166_alpha2</name>
+        <precision>-2</precision>
+        <rename>iso_3166_alpha2</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>3</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>iso_3166_alpha3</name>
+        <precision>-2</precision>
+        <rename>iso_3166_alpha3</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>nome_ptbr</name>
+        <precision>-2</precision>
+        <rename>nome_ptbr</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>capital</name>
+        <precision>-2</precision>
+        <rename>capital</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <decimal_symbol>.</decimal_symbol>
+        <length>-2</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>area_km2</name>
+        <precision>2</precision>
+        <rename>area_km2</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Number</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>15</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>populacao</name>
+        <precision>0</precision>
+        <rename>populacao</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>Integer</type>
+      </meta>
+      <meta>
+        <date_format_lenient>N</date_format_lenient>
+        <length>2147483647</length>
+        <lenient_string_to_number>N</lenient_string_to_number>
+        <name>url_bandeira</name>
+        <precision>-2</precision>
+        <rename>url_bandeira</rename>
+        <roundingType>half_even</roundingType>
+        <storage_type/>
+        <type>String</type>
+      </meta>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>608</xloc>
+      <yloc>48</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>03.2.2_ SortReference</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>Y</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>iso_3166_alpha2</name>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>iso_3166_alpha3</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>784</xloc>
+      <yloc>48</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>03.2_ReadDwCarrier</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Postgres_COMEX</connection>
+    <execute_each_row>N</execute_each_row>
+    <limit>0</limit>
+    <sql>SELECT 
+    iso_3166_alpha2,
+    iso_3166_alpha3,
+    nome_ptbr,
+    capital,
+    area_km2,
+    populacao,
+    url_bandeira
+FROM dw_dim.dim_pais
+WHERE effective_to = '9999-12-31';
+</sql>
+    <variables_active>N</variables_active>
+    <attributes/>
+    <GUI>
+      <xloc>416</xloc>
+      <yloc>48</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>03.3_MergeRefComp</name>
+    <type>MergeRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <keys>
+      <key>iso_3166_alpha2</key>
+      <key>iso_3166_alpha3</key>
+    </keys>
+    <values>
+      <value>iso_3166_alpha2</value>
+      <value>iso_3166_alpha3</value>
+      <value>nome_ptbr</value>
+      <value>capital</value>
+      <value>area_km2</value>
+      <value>populacao</value>
+      <value>url_bandeira</value>
+    </values>
+    <flag_field>flag_diff</flag_field>
+    <reference>03.2.2_ SortReference</reference>
+    <compare>03.1.1_ SortComparison</compare>
+    <compare>
+    </compare>
+    <attributes/>
+    <GUI>
+      <xloc>976</xloc>
+      <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>03.4_SortRefComp</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>Y</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>iso_3166_alpha2</name>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>iso_3166_alpha3</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>1168</xloc>
+      <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>03_DataBranch</name>
+    <type>RowsToResult</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <GUI>
+      <xloc>240</xloc>
+      <yloc>240</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>04_ SortMainFlow</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>Y</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>iso_3166_alpha2</name>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>iso_3166_alpha3</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>1168</xloc>
+      <yloc>240</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>05_MergeNewData</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>FULL OUTER</join_type>
+    <keys_1>
+      <key>iso_3166_alpha2</key>
+      <key>iso_3166_alpha3</key>
+    </keys_1>
+    <keys_2>
+      <key>iso_3166_alpha2</key>
+      <key>iso_3166_alpha3</key>
+    </keys_2>
+    <transform1>04_ SortMainFlow</transform1>
+    <transform2>03.4_SortRefComp</transform2>
+    <attributes/>
+    <GUI>
+      <xloc>1328</xloc>
+      <yloc>240</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>06_SelectColumns</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <remove>
+        <name>iso_3166_alpha2_1</name>
+      </remove>
+      <remove>
+        <name>iso_3166_alpha3_1</name>
+      </remove>
+      <remove>
+        <name>nome_ptbr_1</name>
+      </remove>
+      <remove>
+        <name>capital_1</name>
+      </remove>
+      <remove>
+        <name>area_km2_1</name>
+      </remove>
+      <remove>
+        <name>populacao_1</name>
+      </remove>
+      <remove>
+        <name>url_bandeira_1</name>
+      </remove>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>1328</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>07_Metadata</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
@@ -138,16 +747,10 @@ FROM stg.geodados_flags_raw;</sql>
     </partitioning>
     <fields>
       <field>
-        <length>-1</length>
-        <name>current_flag</name>
-        <nullif>true</nullif>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-        <type>Boolean</type>
-      </field>
-      <field>
+        <format>yyyy-MM-dd</format>
         <length>-1</length>
         <name>effective_to</name>
+        <nullif>9999-12-31</nullif>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
         <type>Date</type>
@@ -155,12 +758,12 @@ FROM stg.geodados_flags_raw;</sql>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>80</yloc>
+      <xloc>1168</xloc>
+      <yloc>336</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>04_ValoresDinamicosControle</name>
+    <name>08_Metadata</name>
     <type>SystemInfo</type>
     <description/>
     <distribute>Y</distribute>
@@ -179,19 +782,15 @@ FROM stg.geodados_flags_raw;</sql>
         <name>created_at</name>
         <type>system date (variable)</type>
       </field>
-      <field>
-        <name>updated_at</name>
-        <type>system date (variable)</type>
-      </field>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>208</yloc>
+      <xloc>1024</xloc>
+      <yloc>336</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>05_TabelaDimPais</name>
+    <name>09.1.1_InsertNewData</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -201,7 +800,7 @@ FROM stg.geodados_flags_raw;</sql>
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <commit>1000</commit>
+    <commit>100</commit>
     <connection>Postgres_COMEX</connection>
     <fields>
       <field>
@@ -233,10 +832,6 @@ FROM stg.geodados_flags_raw;</sql>
         <stream_name>url_bandeira</stream_name>
       </field>
       <field>
-        <column_name>current_flag</column_name>
-        <stream_name>current_flag</stream_name>
-      </field>
-      <field>
         <column_name>effective_to</column_name>
         <stream_name>effective_to</stream_name>
       </field>
@@ -247,10 +842,6 @@ FROM stg.geodados_flags_raw;</sql>
       <field>
         <column_name>created_at</column_name>
         <stream_name>created_at</stream_name>
-      </field>
-      <field>
-        <column_name>updated_at</column_name>
-        <stream_name>updated_at</stream_name>
       </field>
     </fields>
     <ignore_errors>N</ignore_errors>
@@ -268,8 +859,322 @@ FROM stg.geodados_flags_raw;</sql>
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>272</xloc>
-      <yloc>208</yloc>
+      <xloc>464</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09.1_RemoveColumns</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <remove>
+        <name>flag_diff</name>
+      </remove>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09.2.1.1_SelectColuns</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <remove>
+        <name>flag_diff</name>
+      </remove>
+      <remove>
+        <name>effective_to</name>
+      </remove>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09.2.1.2_Metadata</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <format>yyyy-MM-dd</format>
+        <length>-1</length>
+        <name>effective_to</name>
+        <nullif>9999-12-31</nullif>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <type>Date</type>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>288</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09.2.1.3_UpdateData</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <commit>100</commit>
+    <connection>Postgres_COMEX</connection>
+    <fields>
+      <field>
+        <column_name>iso_3166_alpha2</column_name>
+        <stream_name>iso_3166_alpha2</stream_name>
+      </field>
+      <field>
+        <column_name>iso_3166_alpha3</column_name>
+        <stream_name>iso_3166_alpha3</stream_name>
+      </field>
+      <field>
+        <column_name>nome_ptbr</column_name>
+        <stream_name>nome_ptbr</stream_name>
+      </field>
+      <field>
+        <column_name>capital</column_name>
+        <stream_name>capital</stream_name>
+      </field>
+      <field>
+        <column_name>area_km2</column_name>
+        <stream_name>area_km2</stream_name>
+      </field>
+      <field>
+        <column_name>populacao</column_name>
+        <stream_name>populacao</stream_name>
+      </field>
+      <field>
+        <column_name>url_bandeira</column_name>
+        <stream_name>url_bandeira</stream_name>
+      </field>
+      <field>
+        <column_name>effective_from</column_name>
+        <stream_name>effective_from</stream_name>
+      </field>
+      <field>
+        <column_name>created_at</column_name>
+        <stream_name>created_at</stream_name>
+      </field>
+      <field>
+        <column_name>effective_to</column_name>
+        <stream_name>effective_to</stream_name>
+      </field>
+    </fields>
+    <ignore_errors>N</ignore_errors>
+    <only_when_have_rows>N</only_when_have_rows>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <return_keys>N</return_keys>
+    <schema>dw_dim</schema>
+    <specify_fields>Y</specify_fields>
+    <table>dim_pais</table>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_in_table>Y</tablename_in_table>
+    <truncate>N</truncate>
+    <use_batch>Y</use_batch>
+    <attributes/>
+    <GUI>
+      <xloc>96</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09.2.1_CloseOldRecord</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <commit>100</commit>
+    <connection>Postgres_COMEX</connection>
+    <error_ignored>Y</error_ignored>
+    <lookup>
+      <key>
+        <condition>=</condition>
+        <field>iso_3166_alpha2</field>
+        <name>iso_3166_alpha2</name>
+      </key>
+      <key>
+        <condition>=</condition>
+        <field>iso_3166_alpha3</field>
+        <name>iso_3166_alpha3</name>
+      </key>
+      <schema>dw_dim</schema>
+      <table>dim_pais</table>
+      <value>
+        <name>effective_to</name>
+        <rename>created_at</rename>
+      </value>
+    </lookup>
+    <skip_lookup>N</skip_lookup>
+    <use_batch>Y</use_batch>
+    <attributes/>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09.2.2_UnmodifiedData</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <GUI>
+      <xloc>1088</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09.2_FilterChangedData</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compare>
+      <condition>
+        <conditions>
+</conditions>
+        <function>=</function>
+        <leftvalue>flag_diff</leftvalue>
+        <negated>N</negated>
+        <operator>-</operator>
+        <value>
+          <isnull>N</isnull>
+          <length>-1</length>
+          <name>constant</name>
+          <precision>-1</precision>
+          <text>changed</text>
+          <type>String</type>
+        </value>
+      </condition>
+    </compare>
+    <send_false_to>09.2.2_UnmodifiedData</send_false_to>
+    <send_true_to>09.2.1_CloseOldRecord</send_true_to>
+    <attributes/>
+    <GUI>
+      <xloc>880</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09_FilterNewData</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compare>
+      <condition>
+        <conditions>
+          <condition>
+            <conditions>
+</conditions>
+            <function>=</function>
+            <leftvalue>flag_diff</leftvalue>
+            <negated>N</negated>
+            <operator>-</operator>
+            <value>
+              <isnull>N</isnull>
+              <length>-1</length>
+              <name>constant</name>
+              <precision>-1</precision>
+              <text>new</text>
+              <type>String</type>
+            </value>
+          </condition>
+          <condition>
+            <conditions>
+</conditions>
+            <function>=</function>
+            <leftvalue>flag_diff</leftvalue>
+            <negated>N</negated>
+            <operator>OR</operator>
+            <value>
+              <isnull>N</isnull>
+              <length>-1</length>
+              <name>constant</name>
+              <precision>-1</precision>
+              <text>deleted</text>
+              <type>String</type>
+            </value>
+          </condition>
+        </conditions>
+        <function>=</function>
+        <leftvalue>flag_diff</leftvalue>
+        <negated>N</negated>
+        <operator>-</operator>
+        <value>
+          <isnull>N</isnull>
+          <length>-1</length>
+          <name>constant</name>
+          <precision>-1</precision>
+          <text>new</text>
+          <type>String</type>
+        </value>
+      </condition>
+    </compare>
+    <send_false_to>09.2_FilterChangedData</send_false_to>
+    <send_true_to>09.1_RemoveColumns</send_true_to>
+    <attributes/>
+    <GUI>
+      <xloc>880</xloc>
+      <yloc>336</yloc>
     </GUI>
   </transform>
   <transform_error_handling>

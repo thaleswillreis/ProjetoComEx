@@ -8,7 +8,7 @@ CREATE SCHEMA IF NOT EXISTS dw_fact;
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS dw_fact.fato_importacao (
   fato_sk BIGSERIAL PRIMARY KEY,
-  ingest_id BIGINT, -- referência para staging
+  ingest_id BIGINT, 
 
   -- Datas
   data_coleta DATE,
@@ -27,20 +27,21 @@ CREATE TABLE IF NOT EXISTS dw_fact.fato_importacao (
   doc_embarque TEXT,
   peso_kg NUMERIC,
   volume_cbm NUMERIC,
-  tipo TEXT,             --  Modal de transporte (Marítimo, Aéreo, etc)
-  tipo_servico TEXT,      -- Ex: Importação / Exportação
+  tipo TEXT,             
+  tipo_servico TEXT,      
   prazo_contratado INT,
   numero_invoice TEXT,
   operacao TEXT,
-  local_destino TEXT,     --  Nova coluna: cidade de destino (ex: Santos, Curitiba, etc.)
+  local_destino TEXT,     
 
-  created_at TIMESTAMP DEFAULT now()
+  created_at TIMESTAMP DEFAULT now(),
+  
+  -- Colunas SCD2
+  effective_from DATE,
+  effective_to DATE
 );
 
--- Índices para otimização de consultas
-CREATE INDEX IF NOT EXISTS idx_fato_ingest_id 
-  ON dw_fact.fato_importacao(ingest_id);
-
-CREATE INDEX IF NOT EXISTS idx_fato_datas 
-  ON dw_fact.fato_importacao(data_coleta, data_entrega);
+-- Índices
+CREATE INDEX IF NOT EXISTS idx_fato_ingest_id ON dw_fact.fato_importacao(ingest_id);
+CREATE INDEX IF NOT EXISTS idx_fato_datas ON dw_fact.fato_importacao(data_coleta, data_entrega);
 

@@ -52,7 +52,7 @@
     </hop>
     <hop>
       <from>07_ColumnNames</from>
-      <to>08_SaveToPostgres</to>
+      <to>08_SaveToDW(historico_importacao_raw)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -85,7 +85,7 @@
     <rownum>N</rownum>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
+      <xloc>96</xloc>
       <yloc>48</yloc>
     </GUI>
   </transform>
@@ -165,7 +165,7 @@
     <unique_rows>N</unique_rows>
     <attributes/>
     <GUI>
-      <xloc>256</xloc>
+      <xloc>272</xloc>
       <yloc>48</yloc>
     </GUI>
   </transform>
@@ -393,7 +393,7 @@
     <attributes/>
     <GUI>
       <xloc>624</xloc>
-      <yloc>96</yloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
@@ -416,7 +416,7 @@
     <valuename>linha no arquivo de origem</valuename>
     <attributes/>
     <GUI>
-      <xloc>448</xloc>
+      <xloc>624</xloc>
       <yloc>160</yloc>
     </GUI>
   </transform>
@@ -439,7 +439,7 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>256</xloc>
+      <xloc>400</xloc>
       <yloc>160</yloc>
     </GUI>
   </transform>
@@ -573,12 +573,12 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>80</xloc>
-      <yloc>224</yloc>
+      <xloc>144</xloc>
+      <yloc>160</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>08_SaveToPostgres</name>
+    <name>08_SaveToDW(historico_importacao_raw)</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -672,18 +672,21 @@
     <only_when_have_rows>N</only_when_have_rows>
     <partitioning_daily>N</partitioning_daily>
     <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
     <partitioning_monthly>Y</partitioning_monthly>
+    <return_field/>
     <return_keys>N</return_keys>
     <schema>stg</schema>
     <specify_fields>Y</specify_fields>
     <table>historico_importacao_raw</table>
+    <tablename_field/>
     <tablename_in_field>N</tablename_in_field>
     <tablename_in_table>Y</tablename_in_table>
     <truncate>Y</truncate>
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>256</xloc>
+      <xloc>144</xloc>
       <yloc>288</yloc>
     </GUI>
   </transform>

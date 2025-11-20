@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
   postgres:
     image: postgres:15
-    container_name: postgres_comex
+    container_name: postgres_comex_dw
     restart: unless-stopped
     ports:
       - "${DB_PORT}:5432"
@@ -16,8 +14,23 @@ services:
     networks:
       - comex_net
 
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb_comex_log
+    restart: unless-stopped
+    ports:
+      - "${MONGO_PORT}:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - comex_net
+
 volumes:
   postgres_data:
+  mongo_data:
 
 networks:
   comex_net:

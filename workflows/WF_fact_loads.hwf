@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workflow>
-  <name>WF_dim_loads</name>
+  <name>WF_fact_loads</name>
   <name_sync_with_filename>Y</name_sync_with_filename>
   <description/>
   <extended_description/>
   <workflow_version/>
   <created_user>-</created_user>
-  <created_date>2025/10/19 09:13:00.240</created_date>
+  <created_date>2025/11/17 09:02:22.921</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2025/10/19 09:13:00.240</modified_date>
+  <modified_date>2025/11/17 09:02:22.921</modified_date>
   <parameters>
     </parameters>
   <actions>
@@ -44,12 +44,12 @@
         </connection>
       </connections>
       <parallel>N</parallel>
-      <xloc>240</xloc>
+      <xloc>208</xloc>
       <yloc>48</yloc>
       <attributes_hac/>
     </action>
     <action>
-      <name>PIPE_stg_to_dim_pais</name>
+      <name>PIPE_stg_to_fact_importacao</name>
       <description/>
       <type>PIPELINE</type>
       <attributes/>
@@ -59,7 +59,9 @@
       <clear_rows>N</clear_rows>
       <create_parent_folder>N</create_parent_folder>
       <exec_per_row>N</exec_per_row>
-      <filename>${PROJECT_HOME}/pipelines/hop/stg/PIPE_stg_to_dim_pais.hpl</filename>
+      <filename>${PROJECT_HOME}/pipelines/hop/stg/PIPE_stg_to_fact_importacao.hpl</filename>
+      <logext/>
+      <logfile/>
       <loglevel>Basic</loglevel>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
@@ -70,86 +72,8 @@
       <set_logfile>N</set_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <parallel>N</parallel>
-      <xloc>480</xloc>
+      <xloc>432</xloc>
       <yloc>48</yloc>
-      <attributes_hac/>
-    </action>
-    <action>
-      <name>PIPE_stg_to_dim_carrier</name>
-      <description/>
-      <type>PIPELINE</type>
-      <attributes/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <clear_files>N</clear_files>
-      <clear_rows>N</clear_rows>
-      <create_parent_folder>N</create_parent_folder>
-      <exec_per_row>N</exec_per_row>
-      <filename>${PROJECT_HOME}/pipelines/hop/stg/PIPE_stg_to_dim_carrier.hpl</filename>
-      <loglevel>Basic</loglevel>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <params_from_previous>N</params_from_previous>
-      <run_configuration>local</run_configuration>
-      <set_append_logfile>N</set_append_logfile>
-      <set_logfile>N</set_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <parallel>N</parallel>
-      <xloc>672</xloc>
-      <yloc>48</yloc>
-      <attributes_hac/>
-    </action>
-    <action>
-      <name>PIPE_stg_to_dim_excecao</name>
-      <description/>
-      <type>PIPELINE</type>
-      <attributes/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <clear_files>N</clear_files>
-      <clear_rows>N</clear_rows>
-      <create_parent_folder>N</create_parent_folder>
-      <exec_per_row>N</exec_per_row>
-      <filename>${PROJECT_HOME}/pipelines/hop/stg/PIPE_stg_to_dim_excecao.hpl</filename>
-      <loglevel>Basic</loglevel>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <params_from_previous>N</params_from_previous>
-      <run_configuration>local</run_configuration>
-      <set_append_logfile>N</set_append_logfile>
-      <set_logfile>N</set_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <parallel>N</parallel>
-      <xloc>672</xloc>
-      <yloc>176</yloc>
-      <attributes_hac/>
-    </action>
-    <action>
-      <name>PIPE_stg_to_dim_incoterm</name>
-      <description/>
-      <type>PIPELINE</type>
-      <attributes/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <clear_files>N</clear_files>
-      <clear_rows>N</clear_rows>
-      <create_parent_folder>N</create_parent_folder>
-      <exec_per_row>N</exec_per_row>
-      <filename>${PROJECT_HOME}/pipelines/hop/stg/PIPE_stg_to_dim_incoterm.hpl</filename>
-      <loglevel>Basic</loglevel>
-      <parameters>
-        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>
-      <params_from_previous>N</params_from_previous>
-      <run_configuration>local</run_configuration>
-      <set_append_logfile>N</set_append_logfile>
-      <set_logfile>N</set_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <parallel>N</parallel>
-      <xloc>672</xloc>
-      <yloc>304</yloc>
       <attributes_hac/>
     </action>
     <action>
@@ -158,8 +82,8 @@
       <type>SUCCESS</type>
       <attributes/>
       <parallel>N</parallel>
-      <xloc>480</xloc>
-      <yloc>304</yloc>
+      <xloc>688</xloc>
+      <yloc>48</yloc>
       <attributes_hac/>
     </action>
     <action>
@@ -168,7 +92,7 @@
       <type>DUMMY</type>
       <attributes/>
       <parallel>N</parallel>
-      <xloc>480</xloc>
+      <xloc>320</xloc>
       <yloc>176</yloc>
       <attributes_hac/>
     </action>
@@ -201,7 +125,7 @@ Verifique o log no servidor.
       <secureconnectiontype>TLS</secureconnectiontype>
       <sensitivity>normal</sensitivity>
       <server>${EMAIL_HOST}</server>
-      <subject>🚨 Falha no Workflow WF_dim_loads - ProjetoComEx</subject>
+      <subject>🚨 Falha no Workflow WF_fact_loads - ProjetoComEx</subject>
       <use_HTML>N</use_HTML>
       <use_Priority>N</use_Priority>
       <use_auth>Y</use_auth>
@@ -209,7 +133,7 @@ Verifique o log no servidor.
       <usexoauth2>N</usexoauth2>
       <zip_files>N</zip_files>
       <parallel>N</parallel>
-      <xloc>208</xloc>
+      <xloc>560</xloc>
       <yloc>176</yloc>
       <attributes_hac/>
     </action>
@@ -225,9 +149,9 @@ Step: ${Internal.Job.Entry.Name}
 Erro: ${Internal.Job.Entry.FailMessage}
 Data/Hora: ${Internal.Job.StartDate}
 </logmessage>
-      <logsubject>Erro - Workflow WF_dim_loads - ProjetoComEx</logsubject>
+      <logsubject>Erro - Workflow WF_fact_loads - ProjetoComEx</logsubject>
       <parallel>N</parallel>
-      <xloc>336</xloc>
+      <xloc>448</xloc>
       <yloc>176</yloc>
       <attributes_hac/>
     </action>
@@ -239,7 +163,7 @@ Data/Hora: ${Internal.Job.StartDate}
       <always_log_rows>Y</always_log_rows>
       <message>${Internal.Workflow.Name}</message>
       <parallel>N</parallel>
-      <xloc>64</xloc>
+      <xloc>688</xloc>
       <yloc>176</yloc>
       <attributes_hac/>
     </action>
@@ -253,63 +177,14 @@ Data/Hora: ${Internal.Job.StartDate}
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>PIPE_stg_to_dim_pais</from>
-      <to>PIPE_stg_to_dim_carrier</to>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>PIPE_stg_to_dim_carrier</from>
-      <to>PIPE_stg_to_dim_excecao</to>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>PIPE_stg_to_dim_excecao</from>
-      <to>PIPE_stg_to_dim_incoterm</to>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>PIPE_stg_to_dim_incoterm</from>
-      <to>Success</to>
+      <from>CheckDBConnections</from>
+      <to>PIPE_stg_to_fact_importacao</to>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
     <hop>
       <from>CheckDBConnections</from>
-      <to>ExecutionError</to>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>PIPE_stg_to_dim_pais</from>
-      <to>ExecutionError</to>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>PIPE_stg_to_dim_carrier</from>
-      <to>ExecutionError</to>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>PIPE_stg_to_dim_excecao</from>
-      <to>ExecutionError</to>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>PIPE_stg_to_dim_incoterm</from>
       <to>ExecutionError</to>
       <enabled>Y</enabled>
       <evaluation>N</evaluation>
@@ -323,11 +198,11 @@ Data/Hora: ${Internal.Job.StartDate}
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>ErrorLog</from>
-      <to>MailOnError</to>
+      <from>PIPE_stg_to_fact_importacao</from>
+      <to>ExecutionError</to>
       <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
     </hop>
     <hop>
       <from>MailOnError</from>
@@ -337,8 +212,15 @@ Data/Hora: ${Internal.Job.StartDate}
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>CheckDBConnections</from>
-      <to>PIPE_stg_to_dim_pais</to>
+      <from>ErrorLog</from>
+      <to>MailOnError</to>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>PIPE_stg_to_fact_importacao</from>
+      <to>Success</to>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>

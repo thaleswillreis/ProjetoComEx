@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workflow>
-  <name>WF_Stage_Create_Tables</name>
+  <name>WF_stage_create_tables</name>
   <name_sync_with_filename>Y</name_sync_with_filename>
   <description/>
   <extended_description/>
@@ -27,12 +27,12 @@
       <schedulerType>0</schedulerType>
       <weekDay>1</weekDay>
       <parallel>N</parallel>
-      <xloc>50</xloc>
-      <yloc>50</yloc>
+      <xloc>80</xloc>
+      <yloc>48</yloc>
       <attributes_hac/>
     </action>
     <action>
-      <name>Config_variaveis</name>
+      <name>ConfigureVariables</name>
       <description/>
       <type>SET_VARIABLES</type>
       <attributes/>
@@ -69,10 +69,9 @@
         </field>
       </fields>
       <file_variable_type>JVM</file_variable_type>
-      <filename/>
       <replacevars>Y</replacevars>
       <parallel>N</parallel>
-      <xloc>176</xloc>
+      <xloc>208</xloc>
       <yloc>48</yloc>
       <attributes_hac/>
     </action>
@@ -88,8 +87,6 @@
       <create_parent_folder>N</create_parent_folder>
       <exec_per_row>N</exec_per_row>
       <filename>${PROJECT_HOME}/pipelines/hop/raw/PIPE_raw_excecoes_comex.hpl</filename>
-      <logext/>
-      <logfile/>
       <loglevel>Basic</loglevel>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
@@ -100,7 +97,7 @@
       <set_logfile>N</set_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <parallel>N</parallel>
-      <xloc>368</xloc>
+      <xloc>400</xloc>
       <yloc>48</yloc>
       <attributes_hac/>
     </action>
@@ -116,8 +113,6 @@
       <create_parent_folder>N</create_parent_folder>
       <exec_per_row>N</exec_per_row>
       <filename>${PROJECT_HOME}/pipelines/hop/raw/PIPE_raw_carriers_comex.hpl</filename>
-      <logext/>
-      <logfile/>
       <loglevel>Basic</loglevel>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
@@ -128,7 +123,7 @@
       <set_logfile>N</set_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <parallel>N</parallel>
-      <xloc>576</xloc>
+      <xloc>608</xloc>
       <yloc>48</yloc>
       <attributes_hac/>
     </action>
@@ -144,8 +139,6 @@
       <create_parent_folder>N</create_parent_folder>
       <exec_per_row>N</exec_per_row>
       <filename>${PROJECT_HOME}/pipelines/hop/raw/PIPE_raw_geodados_flags.hpl</filename>
-      <logext/>
-      <logfile/>
       <loglevel>Basic</loglevel>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
@@ -156,8 +149,8 @@
       <set_logfile>N</set_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <parallel>N</parallel>
-      <xloc>576</xloc>
-      <yloc>208</yloc>
+      <xloc>608</xloc>
+      <yloc>304</yloc>
       <attributes_hac/>
     </action>
     <action>
@@ -172,8 +165,6 @@
       <create_parent_folder>N</create_parent_folder>
       <exec_per_row>N</exec_per_row>
       <filename>${PROJECT_HOME}/pipelines/hop/raw/PIPE_raw_historico_importacao.hpl</filename>
-      <logext/>
-      <logfile/>
       <loglevel>Basic</loglevel>
       <parameters>
         <pass_all_parameters>Y</pass_all_parameters>
@@ -184,8 +175,8 @@
       <set_logfile>N</set_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <parallel>N</parallel>
-      <xloc>352</xloc>
-      <yloc>208</yloc>
+      <xloc>384</xloc>
+      <yloc>304</yloc>
       <attributes_hac/>
     </action>
     <action>
@@ -194,21 +185,102 @@
       <type>SUCCESS</type>
       <attributes/>
       <parallel>N</parallel>
-      <xloc>176</xloc>
-      <yloc>208</yloc>
+      <xloc>208</xloc>
+      <yloc>304</yloc>
+      <attributes_hac/>
+    </action>
+    <action>
+      <name>ExecutionError</name>
+      <description/>
+      <type>DUMMY</type>
+      <attributes/>
+      <parallel>N</parallel>
+      <xloc>496</xloc>
+      <yloc>176</yloc>
+      <attributes_hac/>
+    </action>
+    <action>
+      <name>MailOnError</name>
+      <description/>
+      <type>MAIL</type>
+      <attributes/>
+      <auth_password>${EMAIL_PASSWORD}</auth_password>
+      <auth_user>${EMAIL_USER}</auth_user>
+      <check_server_identity>N</check_server_identity>
+      <comment>Houve uma falha no processo de carga do Data Warehouse ProjetoComEx.
+
+Verifique o log no servidor.
+</comment>
+      <destination>${EMAIL_TO}</destination>
+      <embeddedimages>
+</embeddedimages>
+      <encoding>UTF-8</encoding>
+      <fileTypes>
+</fileTypes>
+      <importance>normal</importance>
+      <include_date>N</include_date>
+      <include_files>N</include_files>
+      <only_comment>N</only_comment>
+      <port>${EMAIL_PORT}</port>
+      <priority>normal</priority>
+      <replyto>${EMAIL_FROM}</replyto>
+      <replytoname>Responsible data engineer</replytoname>
+      <secureconnectiontype>TLS</secureconnectiontype>
+      <sensitivity>normal</sensitivity>
+      <server>${EMAIL_HOST}</server>
+      <subject>🚨 Falha no Workflow WF_stage_create_tables - ProjetoComEx</subject>
+      <use_HTML>N</use_HTML>
+      <use_Priority>N</use_Priority>
+      <use_auth>Y</use_auth>
+      <use_secure_auth>Y</use_secure_auth>
+      <usexoauth2>N</usexoauth2>
+      <zip_files>N</zip_files>
+      <parallel>N</parallel>
+      <xloc>224</xloc>
+      <yloc>176</yloc>
+      <attributes_hac/>
+    </action>
+    <action>
+      <name>ErrorLog</name>
+      <description/>
+      <type>WRITE_TO_LOG</type>
+      <attributes/>
+      <loglevel>Basic</loglevel>
+      <logmessage>Falha detectada no workflow ProjetoComEx.
+Job: ${Internal.Job.Name}
+Step: ${Internal.Job.Entry.Name}
+Erro: ${Internal.Job.Entry.FailMessage}
+Data/Hora: ${Internal.Job.StartDate}
+</logmessage>
+      <logsubject>Erro - Workflow WF_stage_create_tables - ProjetoComEx</logsubject>
+      <parallel>N</parallel>
+      <xloc>352</xloc>
+      <yloc>176</yloc>
+      <attributes_hac/>
+    </action>
+    <action>
+      <name>AbortWorkflow</name>
+      <description/>
+      <type>ABORT</type>
+      <attributes/>
+      <always_log_rows>Y</always_log_rows>
+      <message>${Internal.Workflow.Name}</message>
+      <parallel>N</parallel>
+      <xloc>80</xloc>
+      <yloc>176</yloc>
       <attributes_hac/>
     </action>
   </actions>
   <hops>
     <hop>
       <from>Start</from>
-      <to>Config_variaveis</to>
+      <to>ConfigureVariables</to>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Config_variaveis</from>
+      <from>ConfigureVariables</from>
       <to>PIPE_raw_excecoes_comex</to>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
@@ -240,6 +312,55 @@
       <to>Success</to>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ExecutionError</from>
+      <to>ErrorLog</to>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>MailOnError</from>
+      <to>AbortWorkflow</to>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>ErrorLog</from>
+      <to>MailOnError</to>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>PIPE_raw_excecoes_comex</from>
+      <to>ExecutionError</to>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>PIPE_raw_carriers_comex</from>
+      <to>ExecutionError</to>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>PIPE_raw_geodados_flags</from>
+      <to>ExecutionError</to>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>PIPE_raw_historico_importacao</from>
+      <to>ExecutionError</to>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>

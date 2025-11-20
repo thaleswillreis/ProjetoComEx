@@ -1,0 +1,21 @@
+{
+  "authenticationDatabaseName": "admin",
+  "usingKerberos": false,
+  "journaled": true,
+  "dbName": "audit",
+  "authenticationUser": "comexadmin",
+  "connectTimeoutMs": "",
+  "writeConcern": "",
+  "authenticationPassword": "Encrypted 2be98afc86ac49d89ae01bd75dd80aace",
+  "usingAllReplicaSetMembers": false,
+  "usingSslSocketFactory": false,
+  "replicationTimeoutMs": "",
+  "hostname": "localhost",
+  "virtualPath": "",
+  "port": "27017",
+  "name": "Mongo_Audit",
+  "readPreference": "PRIMARY",
+  "socketTimeoutMs": "",
+  "readPrefTagSets": "",
+  "authenticationMechanism": "MONGODB_CR"
+}

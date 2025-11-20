@@ -42,7 +42,7 @@
     </hop>
     <hop>
       <from>05_NormalizeColumnNames</from>
-      <to>06_SaveToPostgres</to>
+      <to>06_SaveToDW(geodados_flags_raw)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -217,7 +217,7 @@
     <attributes/>
     <GUI>
       <xloc>592</xloc>
-      <yloc>96</yloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
@@ -296,12 +296,12 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>400</xloc>
+      <xloc>592</xloc>
       <yloc>176</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>06_SaveToPostgres</name>
+    <name>06_SaveToDW(geodados_flags_raw)</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -373,7 +373,7 @@
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>192</xloc>
+      <xloc>288</xloc>
       <yloc>176</yloc>
     </GUI>
   </transform>

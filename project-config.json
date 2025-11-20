@@ -1,5 +1,5 @@
 {
-  "description" : "Projeto de DW utilizando Hop e PostgreSQL",
+  "description" : "Projeto de DW utilizando Hop, MongoDB e PostgreSQL",
   "metadataBaseFolder" : "${PROJECT_HOME}/metadata",
   "unitTestsBasePath" : "${PROJECT_HOME}/tests",
   "dataSetsCsvFolder" : "${PROJECT_HOME}/datasets",

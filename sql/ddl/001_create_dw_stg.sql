@@ -73,15 +73,4 @@ CREATE TABLE IF NOT EXISTS stg.excecoes_comex_raw (
   received_at TIMESTAMP DEFAULT now()
 );
 
--- ============================================================================
--- TABELAS DE ERRO / REJEITOS
--- ============================================================================
-CREATE TABLE IF NOT EXISTS stg.errors_import (
-  error_id BIGSERIAL PRIMARY KEY,
-  source_table TEXT,
-  source_key TEXT,
-  error_message TEXT,
-  raw_row JSONB,
-  occurred_at TIMESTAMP DEFAULT now()
-);
 

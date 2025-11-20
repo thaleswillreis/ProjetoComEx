@@ -1,0 +1,15 @@
+{
+  "virtualPath": "",
+  "loggingParentsOnly": false,
+  "name": "LOG_METADATA_DW",
+  "workflowToLog": [
+    "${PROJECT_HOME}/workflows/WF_dim_loads.hwf",
+    "${PROJECT_HOME}/workflows/WF_fact_loads.hwf"
+  ],
+  "intervalInSeconds": "30",
+  "executingPeriodically": false,
+  "pipelineFilename": "${PROJECT_HOME}/pipelines/hop/log/PIPE_log_dw.hpl",
+  "executingAtEnd": true,
+  "enabled": true,
+  "executingAtStart": false
+}

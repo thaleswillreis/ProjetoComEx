@@ -1,0 +1,14 @@
+{
+  "virtualPath": "",
+  "loggingParentsOnly": false,
+  "name": "LOG_METADATA_RAW",
+  "workflowToLog": [
+    "${PROJECT_HOME}/workflows/WF_stage_create_tables.hwf"
+  ],
+  "intervalInSeconds": "30",
+  "executingPeriodically": false,
+  "pipelineFilename": "${PROJECT_HOME}/pipelines/hop/log/PIPE_log_raw.hpl",
+  "executingAtEnd": true,
+  "enabled": true,
+  "executingAtStart": false
+}

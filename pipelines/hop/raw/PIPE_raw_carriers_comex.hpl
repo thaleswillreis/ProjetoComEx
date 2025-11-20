@@ -42,7 +42,7 @@
     </hop>
     <hop>
       <from>05_NormalizeColumnNames</from>
-      <to>06_SaveToPostgres</to>
+      <to>06_SaveToDW(carriers_comex_raw)</to>
       <enabled>Y</enabled>
     </hop>
   </order>
@@ -172,7 +172,7 @@
     <attributes/>
     <GUI>
       <xloc>592</xloc>
-      <yloc>96</yloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
@@ -221,12 +221,12 @@
     </fields>
     <attributes/>
     <GUI>
-      <xloc>400</xloc>
-      <yloc>176</yloc>
+      <xloc>592</xloc>
+      <yloc>192</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>06_SaveToPostgres</name>
+    <name>06_SaveToDW(carriers_comex_raw)</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -264,22 +264,19 @@
     <only_when_have_rows>N</only_when_have_rows>
     <partitioning_daily>N</partitioning_daily>
     <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
     <partitioning_monthly>Y</partitioning_monthly>
-    <return_field/>
     <return_keys>N</return_keys>
     <schema>stg</schema>
     <specify_fields>Y</specify_fields>
     <table>carriers_comex_raw</table>
-    <tablename_field/>
     <tablename_in_field>N</tablename_in_field>
     <tablename_in_table>Y</tablename_in_table>
     <truncate>Y</truncate>
     <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>176</yloc>
+      <xloc>304</xloc>
+      <yloc>192</yloc>
     </GUI>
   </transform>
   <transform_error_handling>

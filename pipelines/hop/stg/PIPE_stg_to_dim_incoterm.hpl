@@ -21,33 +21,133 @@
   </notepads>
   <order>
     <hop>
-      <from>01_LerDadosRawBD</from>
-      <to>02_DefinirColunas</to>
+      <from>01_ReadRawDB</from>
+      <to>02_DefineColumns</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>02_DefinirColunas</from>
-      <to>03_InserDescricao</to>
+      <from>02_DefineColumns</from>
+      <to>03_InsertDescription</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>03_InserDescricao</from>
-      <to>04_Metadados(timestamps)</to>
+      <from>04.1.1_ SortComparison</from>
+      <to>04.3_MergeRefComp</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>04_Metadados(timestamps)</from>
-      <to>05_AjustarColunas</to>
+      <from>04.1_ComparisonFlow</from>
+      <to>04.1.1_ SortComparison</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>05_AjustarColunas</from>
-      <to>06_Insert / update</to>
+      <from>04.2.1_ReferenceFlow</from>
+      <to>04.2.2_ SortReference</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>04.2.2_ SortReference</from>
+      <to>04.3_MergeRefComp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>04.2_ReadDwCarrier</from>
+      <to>04.2.1_ReferenceFlow</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>04.3_MergeRefComp</from>
+      <to>04.4_SortRefComp</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>04.4_SortRefComp</from>
+      <to>06_MergeNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>04_DataBranch</from>
+      <to>04.1_ComparisonFlow</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>04_DataBranch</from>
+      <to>05_ SortMainFlow</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>05_ SortMainFlow</from>
+      <to>06_MergeNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>06_MergeNewData</from>
+      <to>07_SelectColumns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>07_SelectColumns</from>
+      <to>08_Metadata</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>08_Metadata</from>
+      <to>09_Metadata</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>09_Metadata</from>
+      <to>10_FilterNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>10.1_RemoveColumns</from>
+      <to>10.1.1_InsertNewData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>10.2.1.1_SelectColuns</from>
+      <to>10.2.1.2_Metadata</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>10.2.1.2_Metadata</from>
+      <to>10.2.1.3_UpdateData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>10.2.1_CloseOldRecord</from>
+      <to>10.2.1.1_SelectColuns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>10.2_FilterChangedData</from>
+      <to>10.2.1_CloseOldRecord</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>10.2_FilterChangedData</from>
+      <to>10.2.2_UnmodifiedData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>10_FilterNewData</from>
+      <to>10.1_RemoveColumns</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>10_FilterNewData</from>
+      <to>10.2_FilterChangedData</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>03_InsertDescription</from>
+      <to>04_DataBranch</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <transform>
-    <name>01_LerDadosRawBD</name>
+    <name>01_ReadRawDB</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -71,12 +171,12 @@ WHERE
     <variables_active>N</variables_active>
     <attributes/>
     <GUI>
-      <xloc>96</xloc>
-      <yloc>64</yloc>
+      <xloc>112</xloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>02_DefinirColunas</name>
+    <name>02_DefineColumns</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -102,12 +202,12 @@ WHERE
     </fields>
     <attributes/>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>64</yloc>
+      <xloc>112</xloc>
+      <yloc>144</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>03_InserDescricao</name>
+    <name>03_InsertDescription</name>
     <type>ValueMapper</type>
     <description/>
     <distribute>Y</distribute>
@@ -132,13 +232,45 @@ WHERE
     <target_field>descricao</target_field>
     <attributes/>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>64</yloc>
+      <xloc>112</xloc>
+      <yloc>240</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>04_Metadados(timestamps)</name>
-    <type>SystemInfo</type>
+    <name>04.1.1_ SortComparison</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>Y</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>incoterm_code</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>800</xloc>
+      <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>04.1_ComparisonFlow</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -149,18 +281,25 @@ WHERE
     </partitioning>
     <fields>
       <field>
-        <name>created_at</name>
-        <type>system date (variable)</type>
+        <length>-2</length>
+        <name>incoterm_code</name>
+        <precision>-2</precision>
       </field>
+      <field>
+        <length>-2</length>
+        <name>descricao</name>
+        <precision>-2</precision>
+      </field>
+      <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>128</yloc>
+      <xloc>432</xloc>
+      <yloc>144</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>05_AjustarColunas</name>
+    <name>04.2.1_ReferenceFlow</name>
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
@@ -173,7 +312,7 @@ WHERE
     <fields>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>10</length>
+        <length>2147483647</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>incoterm_code</name>
         <precision>-2</precision>
@@ -184,7 +323,7 @@ WHERE
       </meta>
       <meta>
         <date_format_lenient>N</date_format_lenient>
-        <length>50</length>
+        <length>2147483647</length>
         <lenient_string_to_number>N</lenient_string_to_number>
         <name>descricao</name>
         <precision>-2</precision>
@@ -193,28 +332,293 @@ WHERE
         <storage_type/>
         <type>String</type>
       </meta>
-      <meta>
-        <date_format_lenient>N</date_format_lenient>
-        <length>-2</length>
-        <lenient_string_to_number>N</lenient_string_to_number>
-        <name>created_at</name>
-        <precision>-2</precision>
-        <rename>created_at</rename>
-        <roundingType>half_even</roundingType>
-        <storage_type/>
-        <type>Date</type>
-      </meta>
       <select_unspecified>N</select_unspecified>
     </fields>
     <attributes/>
     <GUI>
-      <xloc>416</xloc>
-      <yloc>192</yloc>
+      <xloc>624</xloc>
+      <yloc>48</yloc>
     </GUI>
   </transform>
   <transform>
-    <name>06_Insert / update</name>
-    <type>InsertUpdate</type>
+    <name>04.2.2_ SortReference</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>Y</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>incoterm_code</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>800</xloc>
+      <yloc>48</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>04.2_ReadDwCarrier</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <connection>Postgres_COMEX</connection>
+    <execute_each_row>N</execute_each_row>
+    <limit>0</limit>
+    <sql>SELECT
+    incoterm_code,
+    descricao
+FROM dw_dim.dim_incoterm
+WHERE effective_to = '9999-12-31';
+</sql>
+    <variables_active>N</variables_active>
+    <attributes/>
+    <GUI>
+      <xloc>432</xloc>
+      <yloc>48</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>04.3_MergeRefComp</name>
+    <type>MergeRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <keys>
+      <key>incoterm_code</key>
+    </keys>
+    <values>
+      <value>incoterm_code</value>
+      <value>descricao</value>
+    </values>
+    <flag_field>flag_diff</flag_field>
+    <reference>04.2.2_ SortReference</reference>
+    <compare>04.1.1_ SortComparison</compare>
+    <compare>
+    </compare>
+    <attributes/>
+    <GUI>
+      <xloc>992</xloc>
+      <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>04.4_SortRefComp</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>Y</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>incoterm_code</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>1184</xloc>
+      <yloc>144</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>04_DataBranch</name>
+    <type>RowsToResult</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <GUI>
+      <xloc>256</xloc>
+      <yloc>240</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>05_ SortMainFlow</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compress>Y</compress>
+    <directory>${java.io.tmpdir}</directory>
+    <fields>
+      <field>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <collator_enabled>N</collator_enabled>
+        <collator_strength>0</collator_strength>
+        <name>incoterm_code</name>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+    <sort_prefix>out</sort_prefix>
+    <sort_size>1000000</sort_size>
+    <unique_rows>N</unique_rows>
+    <attributes/>
+    <GUI>
+      <xloc>1184</xloc>
+      <yloc>240</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>06_MergeNewData</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>FULL OUTER</join_type>
+    <keys_1>
+      <key>incoterm_code</key>
+    </keys_1>
+    <keys_2>
+      <key>incoterm_code</key>
+    </keys_2>
+    <transform1>05_ SortMainFlow</transform1>
+    <transform2>04.4_SortRefComp</transform2>
+    <attributes/>
+    <GUI>
+      <xloc>1344</xloc>
+      <yloc>240</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>07_SelectColumns</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <remove>
+        <name>incoterm_code_1</name>
+      </remove>
+      <remove>
+        <name>descricao_1</name>
+      </remove>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>1344</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>08_Metadata</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <format>yyyy-MM-dd</format>
+        <length>-1</length>
+        <name>effective_to</name>
+        <nullif>9999-12-31</nullif>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <type>Date</type>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>1184</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>09_Metadata</name>
+    <type>SystemInfo</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>effective_from</name>
+        <type>system date (variable)</type>
+      </field>
+      <field>
+        <name>created_at</name>
+        <type>system date (variable)</type>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>1040</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10.1.1_InsertNewData</name>
+    <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -225,36 +629,334 @@ WHERE
     </partitioning>
     <commit>100</commit>
     <connection>Postgres_COMEX</connection>
+    <fields>
+      <field>
+        <column_name>incoterm_code</column_name>
+        <stream_name>incoterm_code</stream_name>
+      </field>
+      <field>
+        <column_name>descricao</column_name>
+        <stream_name>descricao</stream_name>
+      </field>
+      <field>
+        <column_name>effective_to</column_name>
+        <stream_name>effective_to</stream_name>
+      </field>
+      <field>
+        <column_name>effective_from</column_name>
+        <stream_name>effective_from</stream_name>
+      </field>
+      <field>
+        <column_name>created_at</column_name>
+        <stream_name>created_at</stream_name>
+      </field>
+    </fields>
+    <ignore_errors>N</ignore_errors>
+    <only_when_have_rows>N</only_when_have_rows>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <return_keys>N</return_keys>
+    <schema>dw_dim</schema>
+    <specify_fields>Y</specify_fields>
+    <table>dim_incoterm</table>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_in_table>Y</tablename_in_table>
+    <truncate>N</truncate>
+    <use_batch>Y</use_batch>
+    <attributes/>
+    <GUI>
+      <xloc>480</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10.1_RemoveColumns</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <remove>
+        <name>flag_diff</name>
+      </remove>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>672</xloc>
+      <yloc>336</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10.2.1.1_SelectColuns</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <remove>
+        <name>flag_diff</name>
+      </remove>
+      <remove>
+        <name>effective_to</name>
+      </remove>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>496</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10.2.1.2_Metadata</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <format>yyyy-MM-dd</format>
+        <length>-1</length>
+        <name>effective_to</name>
+        <nullif>9999-12-31</nullif>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+        <type>Date</type>
+      </field>
+    </fields>
+    <attributes/>
+    <GUI>
+      <xloc>304</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10.2.1.3_UpdateData</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <commit>100</commit>
+    <connection>Postgres_COMEX</connection>
+    <fields>
+      <field>
+        <column_name>incoterm_code</column_name>
+        <stream_name>incoterm_code</stream_name>
+      </field>
+      <field>
+        <column_name>descricao</column_name>
+        <stream_name>descricao</stream_name>
+      </field>
+      <field>
+        <column_name>effective_from</column_name>
+        <stream_name>effective_from</stream_name>
+      </field>
+      <field>
+        <column_name>created_at</column_name>
+        <stream_name>created_at</stream_name>
+      </field>
+      <field>
+        <column_name>effective_to</column_name>
+        <stream_name>effective_to</stream_name>
+      </field>
+    </fields>
+    <ignore_errors>N</ignore_errors>
+    <only_when_have_rows>N</only_when_have_rows>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <return_keys>N</return_keys>
+    <schema>dw_dim</schema>
+    <specify_fields>Y</specify_fields>
+    <table>dim_incoterm</table>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_in_table>Y</tablename_in_table>
+    <truncate>N</truncate>
+    <use_batch>Y</use_batch>
+    <attributes/>
+    <GUI>
+      <xloc>112</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10.2.1_CloseOldRecord</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <commit>100</commit>
+    <connection>Postgres_COMEX</connection>
+    <error_ignored>Y</error_ignored>
     <lookup>
       <key>
         <condition>=</condition>
         <field>incoterm_code</field>
         <name>incoterm_code</name>
-        <name2/>
       </key>
       <schema>dw_dim</schema>
       <table>dim_incoterm</table>
       <value>
-        <name>incoterm_code</name>
-        <rename>incoterm_code</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>descricao</name>
-        <rename>descricao</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>created_at</name>
+        <name>effective_to</name>
         <rename>created_at</rename>
-        <update>N</update>
       </value>
     </lookup>
-    <update_bypassed>N</update_bypassed>
+    <skip_lookup>N</skip_lookup>
+    <use_batch>Y</use_batch>
     <attributes/>
     <GUI>
-      <xloc>256</xloc>
-      <yloc>192</yloc>
+      <xloc>688</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10.2.2_UnmodifiedData</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <GUI>
+      <xloc>1104</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10.2_FilterChangedData</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compare>
+      <condition>
+        <conditions>
+</conditions>
+        <function>=</function>
+        <leftvalue>flag_diff</leftvalue>
+        <negated>N</negated>
+        <operator>-</operator>
+        <value>
+          <isnull>N</isnull>
+          <length>-1</length>
+          <name>constant</name>
+          <precision>-1</precision>
+          <text>changed</text>
+          <type>String</type>
+        </value>
+      </condition>
+    </compare>
+    <send_false_to>10.2.2_UnmodifiedData</send_false_to>
+    <send_true_to>10.2.1_CloseOldRecord</send_true_to>
+    <attributes/>
+    <GUI>
+      <xloc>896</xloc>
+      <yloc>464</yloc>
+    </GUI>
+  </transform>
+  <transform>
+    <name>10_FilterNewData</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <compare>
+      <condition>
+        <conditions>
+          <condition>
+            <conditions>
+</conditions>
+            <function>=</function>
+            <leftvalue>flag_diff</leftvalue>
+            <negated>N</negated>
+            <operator>-</operator>
+            <value>
+              <isnull>N</isnull>
+              <length>-1</length>
+              <name>constant</name>
+              <precision>-1</precision>
+              <text>new</text>
+              <type>String</type>
+            </value>
+          </condition>
+          <condition>
+            <conditions>
+</conditions>
+            <function>=</function>
+            <leftvalue>flag_diff</leftvalue>
+            <negated>N</negated>
+            <operator>OR</operator>
+            <value>
+              <isnull>N</isnull>
+              <length>-1</length>
+              <name>constant</name>
+              <precision>-1</precision>
+              <text>deleted</text>
+              <type>String</type>
+            </value>
+          </condition>
+        </conditions>
+        <function>=</function>
+        <leftvalue>flag_diff</leftvalue>
+        <negated>N</negated>
+        <operator>-</operator>
+        <value>
+          <isnull>N</isnull>
+          <length>-1</length>
+          <name>constant</name>
+          <precision>-1</precision>
+          <text>new</text>
+          <type>String</type>
+        </value>
+      </condition>
+    </compare>
+    <send_false_to>10.2_FilterChangedData</send_false_to>
+    <send_true_to>10.1_RemoveColumns</send_true_to>
+    <attributes/>
+    <GUI>
+      <xloc>896</xloc>
+      <yloc>336</yloc>
     </GUI>
   </transform>
   <transform_error_handling>
