@@ -1,3 +1,5 @@
+[en-US](https://github.com/thaleswillreis/ProjetoComEx/blob/main/README.md)
+
 # Data Warehouse - ComEx
 
 ## Descrição
@@ -21,7 +23,7 @@ Softwares e bibliotecas:
 
 O projeto está estruturado em torno de duas bases de dados:
 
- `Base de Dados MongoDB:` audit
+ **Base de Dados MongoDB:** audit
 
   **Collections:** dw_load_log, raw_load_log.
 
@@ -29,7 +31,7 @@ O projeto está estruturado em torno de duas bases de dados:
 > A base de dados **audit** é utilizada para guardar dados de log para auditoria. Durante cada execução dos workflows e pipelines de dados do projeto, os logs de execução mais relevantes são capturados e armazenados no formato de documento nas Collections do MongoDB de acordo com seu estágio no processo de data warehousing (coleta de dados ou integração, limpeza e armazenamento).
 
 
-`Base de Dados PostgreSQL:` comex_dw
+**Base de Dados PostgreSQL:** comex_dw
 
 **Schemas:**  stg, dw_dim, dw_fact.
 
@@ -42,7 +44,6 @@ O projeto está estruturado em torno de duas bases de dados:
 | excecoes_comex_raw| dim_excecao    |    |
 | geodados_flags_raw| dim_incoterm   |    |
 |                   | dim_pais       |    |
-|                   |                |    |
 
 
 ### Criação da Base de Dados Principal
@@ -340,8 +341,12 @@ MONGO_USER=usuario
 MONGO_PASS=senha
 ```
 > [!IMPORTANT]
-> Para diminuir a probabilidade de erros e facilitar a manutenção, o arquivo .env deve ser salvo no mesmo diretório do script do docker-compose.
+> Para diminuir a probabilidade de erros e facilitar a manutenção, o arquivo .env deve ser salvo no mesmo diretório do script do docker-compose antes da criação dos containers e volumes Docker para as bases de dados.
 
+> [!WARNING]
+> Para evitar compartilhamento acidental de dados sensíveis, arquivos **.env** devem ser incluídos na lista de ítens não rastreados do **.gitignore** caso o projeto utilize versionamento Git.
+
+### Criação do Container e dos volumes Docker das bases de dados.
 
 #### Script `docker-compose.yml`
 
@@ -384,10 +389,13 @@ networks:
   comex_net:
     driver: bridge
 ```
-
 ## Estrutura do `Workflows Master` (orquestrador) no Apache Hop
 
-Pipelines de governança disparados por gatilhos de execução dos Workflows (gerenciamento de log)
+![Workflow Master](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/Workflows/WF_COMEX_Master.png)
+
+### Lista de pipelines que compõe os workflow:
+
+Pipelines independentes com função de governança e que são disparados por gatilhos de execução dos Workflows (gerenciamento de log).
 
     PIPE_log_raw
     PIPE_log_dw
@@ -410,12 +418,9 @@ Camada de limpeza de dados e 'montagem' das tabelas dimensão e fato:
    	PIPE_stg_to_dim_excecao.hpl
    	PIPE_stg_to_dim_incoterm.hpl
 
-
    >`WF_fact_loads.hwf`
 
 	PIPE_stg_to_fact_importacao.hpl
-
-
 
 ## Contribuição
 
@@ -432,8 +437,7 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull re
 * [MongoDB Compass](https://www.mongodb.com/products/tools/compass)
 * [Github](https://github.com/)
 
-
-
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](https://github.com/thaleswillreis/Data_Pipeline_Web_Scraping/blob/main/LICEN%C3%87A_PT-BR.md) para mais detalhes.
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](https://github.com/thaleswillreis/ProjetoComEx/blob/main/LICEN%C3%87A_PT-BR.md) para mais detalhes.
+
