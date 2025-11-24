@@ -1,4 +1,4 @@
-[en-US](https://github.com/thaleswillreis/ProjetoComEx/blob/main/README.md)
+English version - [en-US](https://github.com/thaleswillreis/ProjetoComEx/blob/main/README.md)
 
 # Data Warehouse - ComEx
 
@@ -450,6 +450,12 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull re
 * [DBeaver](https://dbeaver.io/)
 * [MongoDB Compass](https://www.mongodb.com/products/tools/compass)
 * [Github](https://github.com/)
+
+<a href="https://github.com/thaleswillreis/ProjetoComEx/blob/main/doc/Galeria.md">
+  <img src="https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/Icones/GalleryIcon3d.png" align="right"  width="48">
+</a>
+
+## Galeria de Imagens
 
 ## Licença
 

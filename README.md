@@ -1,10 +1,13 @@
-[pt-BR](https://github.com/thaleswillreis/ProjetoComEx/blob/main/LEIAME.md)
+ Versão em português - [pt-BR](https://github.com/thaleswillreis/ProjetoComEx/blob/main/LEIAME.md)
+
+
 
 # Data Warehouse - ComEx
 
 ## Description
 
 This is an end-to-end educational project for a Data Warehouse built on Apache Hop and the PostgreSQL and MongoDB databases. It involves extracting data from structured files containing records of foreign trade operations (Freight, Export, Import, etc.). The project is based on real-world data, business rules, and problems such as the need to consider time intervals between data loads, implementation of a custom Slowly Changing Dimension Type 2 mechanism, error handling, tracking of new data, log management, data governance, and other technical aspects that will be addressed later in this documentation.
+
 
 ## Development Environment
 
@@ -451,6 +454,14 @@ Contributions are welcome! Feel free to open issues and pull requests in the pro
 * [DBeaver](https://dbeaver.io/)
 * [MongoDB Compass](https://www.mongodb.com/products/tools/compass)
 * [Github](https://github.com/)
+
+
+
+<a href="https://github.com/thaleswillreis/ProjetoComEx/blob/main/doc/Gallery.md">
+  <img src="https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/Icones/GalleryIcon3d.png" align="right"  width="48">
+</a>
+
+## Image Gallery
 
 ## License
 
