@@ -442,9 +442,11 @@ Data cleaning layer and 'assembly' of dimension and fact tables:
 
 ![Log Dw](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_dw_load_log.png)
 
-## Contribution
+## Challenges Encountered
 
-Contributions are welcome! Feel free to open issues and pull requests in the project repository.
+Possibly due to a combination of factors — such as business rule requirements, data structure, the architectural approach selected for the project, and the databases involved — using the Dimension Lookup/Update transform, which is commonly adopted in Apache Hop for implementing Slowly Changing Dimensions Type 2 in Data Warehousing environments, proved to be problematic.
+During testing, I faced issues such as inconsistent pipeline execution results, false positives indicating data changes in dimension tables, and execution errors occurring under different circumstances.
+At this stage of development, I decided to implement a custom SCD2 mechanism using other native Apache Hop transforms. This custom solution can be examined in the image gallery or in the complete project structure, both of which are referenced in the documentation through attached links.
 
 ## Related links:
 

@@ -438,9 +438,11 @@ Camada de limpeza de dados e 'montagem' das tabelas dimensão e fato:
 
 ![Log Dw](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_dw_load_log.png)
 
-## Contribuição
+## Desafios Encontrados
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests no repositório do projeto.
+Possivelmente devido a uma combinação de fatores — como requisitos de regras de negócio, estrutura de dados, abordagem arquitetural selecionada para o projeto e os bancos de dados envolvidos — o uso do transform Dimension Lookup/Update, comumente adotada no Apache Hop para implementar Slowly Changing Dimensions tipo 2 (SCD2) em ambientes de Data Warehousing, mostrou-se problemático.
+Durante os testes, enfrentei problemas como resultados inconsistentes na execução do pipeline, falsos positivos indicando alterações de dados nas tabelas de dimensão e erros de execução ocorrendo em diferentes circunstâncias.
+Nesta etapa do desenvolvimento, decidi implementar um mecanismo SCD2 personalizado usando outros transforms nativos do Apache Hop. Essa solução personalizada pode ser examinada na galeria de imagens ou na estrutura completa do projeto, ambas referenciadas na documentação por meio dos links anexados.
 
 ## Links relacionados:
 
