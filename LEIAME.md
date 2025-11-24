@@ -422,6 +422,8 @@ Camada de limpeza de dados e 'montagem' das tabelas dimensão e fato:
 
 	PIPE_stg_to_fact_importacao.hpl
 
+#### Para visualizar a estrutura completa do projeto [>> click aqui](https://github.com/thaleswillreis/ProjetoComEx/blob/main/doc/Estrutura%20dos%20Workflows%20-%20Projeto%20ComEx.txt)
+
 ## Resultado da construção da `Tabela Fato`
 
 ![Tabela Fato](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_dw_fact_fato_importacao.png)

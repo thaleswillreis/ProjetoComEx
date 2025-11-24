@@ -12,186 +12,186 @@ PIPE_log_dw
 
 
 WF_COMEX_Master.hwf (Workflow Master)
-   WF_Stage_Create_Tables.hwf
-   	PIPE_raw_excecoes_comex.hpl
-   		CSV file input - carregando o arquivo CSV;
-		Add constants - adicionando metadata caminho do arquivo original; 
-		Add sequence - inserindo metadata número de linhas; 
-		Get system info - inserindo metadata data do carregamento do arquivo; Select values - normalizando os nomes das colunas;
-		Select values - normalizando os nomes das colunas;
-		Table output - persistindo a saída na tabela "stg.excecoes_comex_raw".
+	WF_Stage_Create_Tables.hwf
+		PIPE_raw_excecoes_comex.hpl
+	   		CSV file input - carregando o arquivo CSV;
+			Add constants - adicionando metadata caminho do arquivo original; 
+			Add sequence - inserindo metadata número de linhas; 
+			Get system info - inserindo metadata data do carregamento do arquivo; Select values - normalizando os nomes das colunas;
+			Select values - normalizando os nomes das colunas;
+			Table output - persistindo a saída na tabela "stg.excecoes_comex_raw".
 		
-   	PIPE_raw_carriers_comex.hpl
-   		CSV file input - carregando o arquivo CSV; 
-		Add constants - adicionando metadata caminho do arquivo original; 
-		Add sequence - inserindo metadata número de linhas; 
-		Get system info - inserindo metadata data do carregamento do arquivo; Select values - normalizando os nomes das colunas;
-		Select values - normalizando os nomes das colunas;
-		Table output - persistindo a saída na tabela "stg.carriers_comex_raw".
-		
-   	PIPE_raw_geodados_flags.hpl
-   		Microsoft Excel Input - carregando arquivo do Excel; 
-		Add constants - adicionando metadata caminho do arquivo original; 
-		Add sequence - inserindo metadata número de linhas; 
-		Get system info - inserindo metadata data do carregamento do arquivo; Select values - normalizando os nomes das colunas;
-		Select values - normalizando os nomes das colunas;
-		Table output - persistindo a saída na tabela "stg.geodados_flags_raw".
-		
-   	PIPE_raw_historico_importacao.hpl
-   		Get file names - buscando os arquivos atualmente no diretório; 
-		Sort rows - classificando os arquivos por data; 
-		Sample rows - Escolhendo o arquivo mais recente; 
-		CSV file input - carregando o arquivo CSV; 
-		Add sequence - inserindo metadata número de linhas; 
-		Get system info - inserindo metadata data do carregamento do arquivo; 
-		Select values - normalizando os nomes das colunas;
-		Table output - persistindo a saída na tabela "stg.historico_importacao_raw".
+	   	PIPE_raw_carriers_comex.hpl
+	   		CSV file input - carregando o arquivo CSV; 
+			Add constants - adicionando metadata caminho do arquivo original; 
+			Add sequence - inserindo metadata número de linhas; 
+			Get system info - inserindo metadata data do carregamento do arquivo; Select values - normalizando os nomes das colunas;
+			Select values - normalizando os nomes das colunas;
+			Table output - persistindo a saída na tabela "stg.carriers_comex_raw".
+			
+	   	PIPE_raw_geodados_flags.hpl
+	   		Microsoft Excel Input - carregando arquivo do Excel; 
+			Add constants - adicionando metadata caminho do arquivo original; 
+			Add sequence - inserindo metadata número de linhas; 
+			Get system info - inserindo metadata data do carregamento do arquivo; Select values - normalizando os nomes das colunas;
+			Select values - normalizando os nomes das colunas;
+			Table output - persistindo a saída na tabela "stg.geodados_flags_raw".
+			
+	   	PIPE_raw_historico_importacao.hpl
+	   		Get file names - buscando os arquivos atualmente no diretório; 
+			Sort rows - classificando os arquivos por data; 
+			Sample rows - Escolhendo o arquivo mais recente; 
+			CSV file input - carregando o arquivo CSV; 
+			Add sequence - inserindo metadata número de linhas; 
+			Get system info - inserindo metadata data do carregamento do arquivo; 
+			Select values - normalizando os nomes das colunas;
+			Table output - persistindo a saída na tabela "stg.historico_importacao_raw".
 
 
-   WF_dim_loads.hwf
-   	PIPE_stg_to_dim_pais.hpl
-   		Table input - lendo dados da tabela stg.geodados_flags_raw;
-		Select values - convertendo tipos numéricos e adequando nomes de colunas;
-		Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
-		Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
-		Sort rows - (Branch de comparação) classificando os dados para serem comparados;
-		Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
-		Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
-		Sort rows - (Branch de referência) classificando os dados para serem comparados;
-		Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
-		Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
-		Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
-		Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
-		Select values - removendo colunas residuais duplicadas geradas durante o Join;
-		Add constants - adicionando as colunas 'effective_to' (Date);
-		Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
-		Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
-		Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
-		Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_dim.dim_pais'
-		Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
-		Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
-		Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
-		Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
-		Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_dim.dim_pais';
-		Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
+	WF_dim_loads.hwf
+		PIPE_stg_to_dim_pais.hpl
+	   		Table input - lendo dados da tabela stg.geodados_flags_raw;
+			Select values - convertendo tipos numéricos e adequando nomes de colunas;
+			Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
+			Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
+			Sort rows - (Branch de comparação) classificando os dados para serem comparados;
+			Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
+			Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
+			Sort rows - (Branch de referência) classificando os dados para serem comparados;
+			Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
+			Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
+			Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
+			Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
+			Select values - removendo colunas residuais duplicadas geradas durante o Join;
+			Add constants - adicionando as colunas 'effective_to' (Date);
+			Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
+			Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
+			Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
+			Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_dim.dim_pais'
+			Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
+			Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
+			Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
+			Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
+			Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_dim.dim_pais';
+			Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
 		
-   	PIPE_stg_to_dim_carrier.hpl
-   		Table input - lendo dados (id_carrier, operador_logistico) da tabela stg.carriers_comex_raw;
-		Select values - renomeando 'operador_logistico' para 'nome_operador_logistico' e adequando os tamanhos dos campos;
-		Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
-		Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
-		Sort rows - (Branch de comparação) classificando os dados para serem comparados;
-		Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
-		Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
-		Sort rows - (Branch de referência) classificando os dados para serem comparados;
-		Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
-		Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
-		Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
-		Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
-		Select values - removendo colunas residuais duplicadas geradas durante o Join;
-		Add constants - adicionando as colunas 'effective_to' (Date);
-		Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
-		Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
-		Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
-		Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_dim.dim_carrier'
-		Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
-		Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
-		Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
-		Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
-		Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_dim.dim_carrier';
-		Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
+	   	PIPE_stg_to_dim_carrier.hpl
+	   		Table input - lendo dados (id_carrier, operador_logistico) da tabela stg.carriers_comex_raw;
+			Select values - renomeando 'operador_logistico' para 'nome_operador_logistico' e adequando os tamanhos dos campos;
+			Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
+			Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
+			Sort rows - (Branch de comparação) classificando os dados para serem comparados;
+			Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
+			Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
+			Sort rows - (Branch de referência) classificando os dados para serem comparados;
+			Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
+			Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
+			Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
+			Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
+			Select values - removendo colunas residuais duplicadas geradas durante o Join;
+			Add constants - adicionando as colunas 'effective_to' (Date);
+			Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
+			Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
+			Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
+			Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_dim.dim_carrier'
+			Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
+			Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
+			Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
+			Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
+			Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_dim.dim_carrier';
+			Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
 		
-   	PIPE_stg_to_dim_excecao.hpl
-   		Table input - lendo dados da tabela stg.excecoes_comex_raw;
-		Select values - adequando nomes, formato de dados e os tamanhos dos campos;
-		Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
-		Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
-		Sort rows - (Branch de comparação) classificando os dados para serem comparados;
-		Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
-		Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
-		Sort rows - (Branch de referência) classificando os dados para serem comparados;
-		Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
-		Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
-		Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
-		Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
-		Select values - removendo colunas residuais duplicadas geradas durante o Join;
-		Add constants - adicionando as colunas 'effective_to' (Date);
-		Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
-		Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
-		Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
-		Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_dim.dim_excecao'
-		Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
-		Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
-		Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
-		Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
-		Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_dim.dim_excecao';
-		Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
+	   	PIPE_stg_to_dim_excecao.hpl
+	   		Table input - lendo dados da tabela stg.excecoes_comex_raw;
+			Select values - adequando nomes, formato de dados e os tamanhos dos campos;
+			Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
+			Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
+			Sort rows - (Branch de comparação) classificando os dados para serem comparados;
+			Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
+			Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
+			Sort rows - (Branch de referência) classificando os dados para serem comparados;
+			Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
+			Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
+			Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
+			Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
+			Select values - removendo colunas residuais duplicadas geradas durante o Join;
+			Add constants - adicionando as colunas 'effective_to' (Date);
+			Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
+			Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
+			Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
+			Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_dim.dim_excecao'
+			Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
+			Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
+			Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
+			Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
+			Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_dim.dim_excecao';
+			Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
 		
-   	PIPE_stg_to_dim_incoterm.hpl
-   		Table input - lendo dados de stg.historico_importacao_raw para extrair os dados de 'Incoterm' (Termos Internacionais de Comércio);
-		Select values - renomeando 'incoterm' para 'incoterm_code' e adequando os tamanhos dos campos;
-		Value mapper - inserir campo de descrição de acordo com o código;
-		Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
-		Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
-		Sort rows - (Branch de comparação) classificando os dados para serem comparados;
-		Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
-		Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
-		Sort rows - (Branch de referência) classificando os dados para serem comparados;
-		Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
-		Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
-		Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
-		Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
-		Select values - removendo colunas residuais duplicadas geradas durante o Join;
-		Add constants - adicionando as colunas 'effective_to' (Date);
-		Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
-		Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
-		Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
-		Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_dim.dim_incoterm'
-		Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
-		Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
-		Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
-		Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
-		Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_dim.dim_incoterm';
-		Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
+	   	PIPE_stg_to_dim_incoterm.hpl
+	   		Table input - lendo dados de stg.historico_importacao_raw para extrair os dados de 'Incoterm' (Termos Internacionais de Comércio);
+			Select values - renomeando 'incoterm' para 'incoterm_code' e adequando os tamanhos dos campos;
+			Value mapper - inserir campo de descrição de acordo com o código;
+			Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
+			Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
+			Sort rows - (Branch de comparação) classificando os dados para serem comparados;
+			Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
+			Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
+			Sort rows - (Branch de referência) classificando os dados para serem comparados;
+			Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
+			Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
+			Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
+			Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
+			Select values - removendo colunas residuais duplicadas geradas durante o Join;
+			Add constants - adicionando as colunas 'effective_to' (Date);
+			Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
+			Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
+			Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
+			Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_dim.dim_incoterm'
+			Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
+			Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
+			Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
+			Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
+			Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_dim.dim_incoterm';
+			Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
    	
    	
-   WF_fact_loads.hwf (Camada STG)
-	PIPE_stg_to_fact_importacao.hpl
-	   	Table input - lendo dados da tabela stg.historico_importacao_raw para extrair os dados;
-	   	Replace in string - ajustando o formato de dados (Datas e fuso horário);
-		Select values - ajustando formatos de números, casas decimais, separador de milhar, tamanho dos campos, etc;
-		Table input - lendo dados da tabela dw_dim.dim_date para extrair dados de surrogate keys;
-		Stream lookup - Adicionando coluna de surrogate key (data_coleta_sk);
-		Stream lookup - Adicionando coluna de surrogate key (data_entrega_sk);
-		Table input - lendo dados da tabela dw_dim.dim_pais para extrair dados de surrogate keys;
-		Stream lookup - Adicionando coluna de surrogate key (pais_origem_sk);
-		Stream lookup - Adicionando coluna de surrogate key (pais_destino_sk);
-		Table input - lendo dados da tabela dw_dim.dim_carrier para extrair dados de surrogate keys;
-		Stream lookup - Adicionando coluna de surrogate key (carrier_sk);
-		Table input - lendo dados da tabela dw_dim.dim_incoterm para extrair dados de surrogate keys;
-		Stream lookup - Adicionando coluna de surrogate key (incoterm_sk);
-		Table input - lendo dados da tabela dw_dim.dim_excecao para extrair dados de surrogate keys;
-		Stream lookup - Adicionando coluna de surrogate key (excecao_sk);
-		Select values - Ajustando as novas colunas de surrogate key e os tipos e cormatos dos dados;
-		Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
-		Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
-		Sort rows - (Branch de comparação) classificando os dados para serem comparados;
-		Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
-		Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
-		Sort rows - (Branch de referência) classificando os dados para serem comparados;
-		Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
-		Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
-		Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
-		Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
-		Select values - removendo colunas residuais duplicadas geradas durante o Join;
-		Add constants - adicionando as colunas 'effective_to' (Date);
-		Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
-		Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
-		Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
-		Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_fact.fato_importacao'
-		Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
-		Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
-		Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
-		Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
-		Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_fact.fato_importacao';
-		Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
+   	WF_fact_loads.hwf (Camada STG)
+		PIPE_stg_to_fact_importacao.hpl
+		   	Table input - lendo dados da tabela stg.historico_importacao_raw para extrair os dados;
+		   	Replace in string - ajustando o formato de dados (Datas e fuso horário);
+			Select values - ajustando formatos de números, casas decimais, separador de milhar, tamanho dos campos, etc;
+			Table input - lendo dados da tabela dw_dim.dim_date para extrair dados de surrogate keys;
+			Stream lookup - Adicionando coluna de surrogate key (data_coleta_sk);
+			Stream lookup - Adicionando coluna de surrogate key (data_entrega_sk);
+			Table input - lendo dados da tabela dw_dim.dim_pais para extrair dados de surrogate keys;
+			Stream lookup - Adicionando coluna de surrogate key (pais_origem_sk);
+			Stream lookup - Adicionando coluna de surrogate key (pais_destino_sk);
+			Table input - lendo dados da tabela dw_dim.dim_carrier para extrair dados de surrogate keys;
+			Stream lookup - Adicionando coluna de surrogate key (carrier_sk);
+			Table input - lendo dados da tabela dw_dim.dim_incoterm para extrair dados de surrogate keys;
+			Stream lookup - Adicionando coluna de surrogate key (incoterm_sk);
+			Table input - lendo dados da tabela dw_dim.dim_excecao para extrair dados de surrogate keys;
+			Stream lookup - Adicionando coluna de surrogate key (excecao_sk);
+			Select values - Ajustando as novas colunas de surrogate key e os tipos e cormatos dos dados;
+			Copy rows to result - criando uma "branch" dos dados para comparação com os do DW; (Inicio da implementação do SCD2)
+			Select values - (Branch de comparação) escolhendo as colunas que serão comparadas com as do DW;
+			Sort rows - (Branch de comparação) classificando os dados para serem comparados;
+			Table input - (Branch de referência) lendo os dados do DW para servirem de referência na comparação;
+			Select values - (Branch de referência) formatando as colunas que serão comparadas com as do pipeline;
+			Sort rows - (Branch de referência) classificando os dados para serem comparados;
+			Merge row (diff) - comparando os dados do DW e do pipeline para ver se há mudanças ou novos dados;
+			Sort rows - (Fluxo secundário) classificando os dados para serem unificados (Full Outer Join);
+			Sort rows - (Fluxo de dados principal) classificando os dados para serem unificados (Full Outer Join);
+			Merge join - Juntando os fluxos com os dados já comparados e etiquetados;
+			Select values - removendo colunas residuais duplicadas geradas durante o Join;
+			Add constants - adicionando as colunas 'effective_to' (Date);
+			Get system info - adicionando as colunas 'effective_from' (System date (variable)), 'created_at' (System date (variable));
+			Filter rows - filtra os dados etiquetados como 'new' ou 'deleted' para serem persistidos como dados novos;
+			Select values - (Saída TRUE do 1º filtro) remove colunas usadas para etiquetar os dados;
+			Table output - (Saída TRUE do 1º filtro) grava a saída do pipeline na tabela 'dw_fact.fato_importacao'
+			Filter rows - (Saída FALSE do 1º filtro) filtra os dados etiquetados como 'changed' para serem persistidos como dados modificados;
+			Update - (Saída TRUE do 2º filtro) atualiza o campo 'effective_to' do dado modificado para a data atual (encerra a validade);
+			Select values - (Saída TRUE do 2º filtro) remove as colunas de etiquetamento de dados e 'effective_to' antiga;
+			Add constants - (Saída TRUE do 2º filtro) adicionando coluna 'effective_to' com uma nova data de validade para os dados modificados;
+			Table output - (Saída TRUE do 2º filtro) grava os dados etiquetados como modificados na tabela 'dw_fact.fato_importacao';
+			Dummy - (Saída FALSE do 2º filtro) rece os dados classificados como idênticos e que não precisam ser persistidos no DW.
