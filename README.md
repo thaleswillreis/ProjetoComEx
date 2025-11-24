@@ -456,12 +456,11 @@ Contributions are welcome! Feel free to open issues and pull requests in the pro
 * [Github](https://github.com/)
 
 
-
+## Image Gallery
 <a href="https://github.com/thaleswillreis/ProjetoComEx/blob/main/doc/Gallery.md">
-  <img src="https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/Icones/GalleryIcon3d.png" align="right"  width="48">
+  <img src="https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/Icones/GalleryIcon3d.png"  width="48">
 </a>
 
-## Image Gallery
 
 ## License
 
