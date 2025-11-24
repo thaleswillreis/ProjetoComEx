@@ -1,0 +1,198 @@
+Workflow Structure
+
+Governance pipelines triggered by workflow execution triggers.
+
+PIPE_log_raw
+
+	Workflow Logging - captures execution log data from the stg layer Workflows;
+	MongoDB output - maps each execution log attribute to objects in their respective MongoDB collections.
+	
+PIPE_log_dw
+	Workflow Logging - captures execution log data from Workflows in the data warehouse layer;
+	MongoDB output - maps each execution log attribute to objects in their respective MongoDB collections.
+
+
+WF_COMEX_Master.hwf (Workflow Master)
+   WF_Stage_Create_Tables.hwf
+   	PIPE_raw_excecoes_comex.hpl
+		CSV file input - loading the CSV file;
+		Add constants - adding metadata path to the original file;
+		Add sequence - inserting metadata number of rows;
+		Get system info - inserting metadata file upload date; Select values ​​- normalizing column names;
+		Select values ​​- normalizing column names;
+		Table output - persisting the output in the table "stg.excecoes_comex_raw".
+		
+   	PIPE_raw_carriers_comex.hpl
+		CSV file input - loading the CSV file;
+		Add constants - adding metadata path to the original file;
+		Add sequence - inserting metadata number of rows;
+		Get system info - inserting metadata file upload date; Select values ​​- normalizing column names;
+		Select values ​​- normalizing column names;
+		Table output - persisting the output in the table "stg.carriers_comex_raw".
+		
+   	PIPE_raw_geodados_flags.hpl
+		Microsoft Excel Input - Loading Excel file;
+		Add constants - Adding metadata path to the original file;
+		Add sequence - Inserting metadata row number;
+		Get system info - Inserting metadata file upload date; Select values ​​- Normalizing column names;
+		Select values ​​- Normalizing column names;
+		Table output - Persisting the output in the table "stg.geodados_flags_raw".
+		
+   	PIPE_raw_historico_importacao.hpl
+		Get file names - searching for files currently in the directory;
+		Sort rows - sorting files by date;
+		Sample rows - choosing the most recent file;
+		CSV file input - loading the CSV file;
+		Add sequence - inserting metadata (number of rows);
+		Get system info - inserting metadata (file upload date);
+		Select values ​​- normalizing column names;
+		Table output - persisting the output in the table "stg.historico_importacao_raw".
+
+
+   WF_dim_loads.hwf
+   	PIPE_stg_to_dim_pais.hpl
+		Table input - reading data from the stg.geodados_flags_raw table;
+		Select values ​​- converting numeric types and adjusting column names;
+		Copy rows to result - creating a "branch" of data for comparison with the DW; (Start of SCD2 implementation)
+		Select values ​​- (Comparison branch) choosing the columns to be compared with those in the DW;
+		Sort rows - (Comparison branch) sorting the data to be compared;
+		Table input - (Reference branch) reading the data from the DW to serve as a reference in the comparison;
+		Select values ​​- (Reference branch) formatting the columns to be compared with those in the pipeline;
+		Sort rows - (Reference branch) sorting the data to be compared;
+		Merge row (diff) - comparing the data from the DW and the pipeline to see if there are changes or new data;
+		Sort rows - (Secondary flow) sorting the data to be unified (Full Outer Join);
+		Sort rows - (Main data stream) sorting the data to be unified (Full Outer Join);
+		Merge join - Joining the streams with the data already compared and labeled;
+		Select values ​​- removing duplicate residual columns generated during the Join;
+		Add constants - adding the 'effective_to' (Date) columns;
+		Get system info - adding the 'effective_from' (System date (variable)) and 'created_at' (System date (variable)) columns;
+		Filter rows - filters the data labeled as 'new' or 'deleted' to be persisted as new data;
+		Select values ​​- (True output from the 1st filter) removes columns used to label the data;
+		Table output - (True output from the 1st filter) saves the pipeline output to the 'dw_dim.dim_pais' table;
+		Filter rows - (FALSE output from the 1st filter) filters the data labeled as 'changed' to be persisted as modified data;
+		Update - (True output from the 2nd filter) updates the 'effective_to' field of the modified data to the current date (ends the validity period);
+		Select values ​​- (True output from the 2nd filter) removes the old data labeling and 'effective_to' columns;
+		Add constants - (True output from the 2nd filter) adds the 'effective_to' column with a new validity date for the modified data;
+		Table output - (True output from the 2nd filter) saves the data labeled as modified to the 'dw_dim.dim_pais' table;
+		Dummy - (FALSE output from the 2nd filter) receives the data classified as identical and that do not need to be persisted in the DW.
+		
+   	PIPE_stg_to_dim_carrier.hpl
+		Table input - reading data (id_carrier, operator_logistics) from the stg.carriers_comex_raw table;
+		Select values ​​- renaming 'operator_logistics' to 'operator_logistics_name' and adjusting the field sizes;
+		Copy rows to result - creating a "branch" of data for comparison with the DW; (Start of SCD2 implementation)
+		Select values ​​- (Comparison branch) choosing the columns that will be compared with those in the DW;
+		Sort rows - (Comparison branch) sorting the data to be compared;
+		Table input - (Reference branch) reading the data from the DW to serve as a reference in the comparison;
+		Select values ​​- (Reference branch) formatting the columns that will be compared with those in the pipeline;
+		Sort rows - (Reference branch) sorting the data to be compared;
+		Merge row (diff) - comparing the data from the DW and the pipeline to see if there are changes or new data;
+		Sort rows - (Secondary flow) sorting the data to be unified (Full Outer Join);
+		Sort rows - (Main data flow) sorting the data to be unified (Full Outer Join);
+		Merge join - Joining the flows with the data already compared and labeled;
+		Select values ​​- removing duplicate residual columns generated during the Join;
+		Add constants - adding the 'effective_to' (Date) columns;
+		Get system info - adding the 'effective_from' (System date (variable)) and 'created_at' (System date (variable)) columns;
+		Filter rows - filters the data labeled as 'new' or 'deleted' to be persisted as new data;
+		Select values ​​- (True output from the 1st filter) removes columns used to label the data;
+		Table output - (True output from the 1st filter) writes the pipeline output to the 'dw_dim.dim_carrier' table;
+		Filter rows - (FALSE output from the 1st filter) filters the data labeled as 'changed' to be persisted as modified data;
+		Update - (True output from the 2nd filter) updates the 'effective_to' field of the modified data to the current date (ends the validity period);
+		Select values ​​- (True output from the 2nd filter) removes the old data labeling and 'effective_to' columns;
+		Add constants - (True output from the 2nd filter) adds the 'effective_to' column with a new validity date for the modified data;
+		Table output - (True output from the 2nd filter) writes the data labeled as modified to the 'dw_dim.dim_carrier' table;
+		Dummy - (FALSE output from the 2nd filter) receives the data classified as identical and that do not need to be persisted in the DW.
+		
+   	PIPE_stg_to_dim_excecao.hpl
+ 		Table input - reading data from the stg.excecoes_comex_raw table;
+		Select values ​​- adjusting names, data format, and field sizes;
+		Copy rows to result - creating a "branch" of data for comparison with the DW; (Start of SCD2 implementation)
+		Select values ​​- (Comparison branch) choosing the columns to be compared with those in the DW;
+		Sort rows - (Comparison branch) sorting the data to be compared;
+		Table input - (Reference branch) reading the data from the DW to serve as a reference in the comparison;
+		Select values ​​- (Reference branch) formatting the columns to be compared with those in the pipeline;
+		Sort rows - (Reference branch) sorting the data to be compared;
+		Merge row (diff) - comparing the data from the DW and the pipeline to see if there are changes or new data;
+		Sort rows - (Secondary flow) sorting the data to be unified (Full Outer Join);
+		Sort rows - (Main data stream) sorting the data to be unified (Full Outer Join);
+		Merge join - Joining the streams with the data already compared and labeled;
+		Select values ​​- removing duplicate residual columns generated during the Join;
+		Add constants - adding the 'effective_to' (Date) columns;
+		Get system info - adding the 'effective_from' (System date (variable)) and 'created_at' (System date (variable)) columns;
+		Filter rows - filters the data labeled as 'new' or 'deleted' to be persisted as new data;
+		Select values ​​- (True output from the 1st filter) removes columns used to label the data;
+		Table output - (True output from the 1st filter) saves the pipeline output to the 'dw_dim.dim_excecao' table;
+		Filter rows - (FALSE output from the 1st filter) filters the data labeled as 'changed' to be persisted as modified data;
+		Update - (True output from the 2nd filter) updates the 'effective_to' field of the modified data to the current date (ends the validity period);
+		Select values ​​- (True output from the 2nd filter) removes the old data labeling and 'effective_to' columns;
+		Add constants - (True output from the 2nd filter) adds the 'effective_to' column with a new validity date for the modified data;
+		Table output - (True output from the 2nd filter) saves the data labeled as modified to the 'dw_dim.dim_excecao' table;
+		Dummy - (FALSE output from the 2nd filter) receives the data classified as identical and that do not need to be persisted in the DW.
+		
+   	PIPE_stg_to_dim_incoterm.hpl
+		Table input - reading data from stg.historico_importacao_raw to extract the 'Incoterm' (International Trade Terms) data;
+		Select values ​​- renaming 'incoterm' to 'incoterm_code' and adjusting the field sizes;
+		Value mapper - inserting a description field according to the code;
+		Copy rows to result - creating a "branch" of data for comparison with the DW; (Start of SCD2 implementation)
+		Select values ​​- (Comparison branch) choosing the columns that will be compared with those in the DW;
+		Sort rows - (Comparison branch) sorting the data to be compared;
+		Table input - (Reference branch) reading the data from the DW to serve as a reference in the comparison;
+		Select values ​​- (Reference branch) formatting the columns that will be compared with those in the pipeline;
+		Sort rows - (Reference branch) sorting the data to be compared;
+		Merge row (diff) - comparing data from the DW and pipeline to see if there are changes or new data;
+		Sort rows - (Secondary flow) sorting the data to be unified (Full Outer Join);
+		Sort rows - (Main data flow) sorting the data to be unified (Full Outer Join);
+		Merge join - Joining the flows with the already compared and labeled data;
+		Select values ​​- removing duplicate residual columns generated during the Join;
+		Add constants - adding the 'effective_to' (Date) columns;
+		Get system info - adding the 'effective_from' (System date (variable)) and 'created_at' (System date (variable)) columns;
+		Filter rows - filters data labeled as 'new' or 'deleted' to be persisted as new data;
+		Select values ​​- (TRUE output from the 1st filter) removes columns used to label the data;
+		Table output - (True output from the 1st filter) saves the pipeline output to the 'dw_dim.dim_incoterm' table;
+		Filter rows - (FALSE output from the 1st filter) filters the data labeled as 'changed' to be persisted as modified data;
+		Update - (True output from the 2nd filter) updates the 'effective_to' field of the modified data to the current date (ends the validity period);
+		Select values ​​- (True output from the 2nd filter) removes the old data labeling and 'effective_to' columns;
+		Add constants - (True output from the 2nd filter) adds the 'effective_to' column with a new validity date for the modified data;
+		Table output - (True output from the 2nd filter) saves the data labeled as modified to the 'dw_dim.dim_incoterm' table;
+		Dummy - (FALSE output from the 2nd filter) receives the data classified as identical and that do not need to be persisted in the DW.
+   	
+   	
+   WF_fact_loads.hwf (Camada STG)
+	PIPE_stg_to_fact_importacao.hpl
+		Table input - reading data from the stg.historico_importacao_raw table to extract the data;
+		Replace in string - adjusting the data format (Dates and time zone);
+		Select values ​​- adjusting number formats, decimal places, thousands separator, field size, etc.;
+		Table input - reading data from the dw_dim.dim_date table to extract data from surrogate keys;
+		Stream lookup - Adding a surrogate key column (data_coleta_sk);
+		Stream lookup - Adding a surrogate key column (data_entrega_sk);
+		Table input - reading data from the dw_dim.dim_pais table to extract data from surrogate keys;
+		Stream lookup - Adding a surrogate key column (pais_origem_sk);
+		Stream lookup - Adding a surrogate key column (pais_destino_sk);
+		Table input - reading data from the dw_dim.dim_carrier table to extract surrogate key data;
+		Stream lookup - Adding a surrogate key column (carrier_sk);
+		Table input - reading data from the dw_dim.dim_incoterm table to extract surrogate key data;
+		Stream lookup - Adding a surrogate key column (incoterm_sk);
+		Table input - reading data from the dw_dim.dim_excecao table to extract surrogate key data;
+		Stream lookup - Adding a surrogate key column (excecao_sk);
+		Select values ​​- Adjusting the new surrogate key columns and the data types and formats;
+		Copy rows to result - creating a "branch" of data for comparison with the DW; (Start of SCD2 implementation)
+		Select values ​​- (Comparison branch) choosing the columns that will be compared with those of the DW;
+		Sort rows - (Comparison branch) sorting the data to be compared;
+		Table input - (Reference branch) reading the data from the DW to serve as a reference in the comparison;
+		Select values ​​- (Reference branch) formatting the columns that will be compared with those of the pipeline;
+		Sort rows - (Reference branch) sorting the data to be compared;
+		Merge row (diff) - comparing the data from the DW and the pipeline to see if there are changes or new data;
+		Sort rows - (Secondary flow) sorting the data to be unified (Full Outer Join);
+		Sort rows - (Main data flow) sorting the data to be unified (Full Outer Join);
+		Merge join - Joining the flows with the already compared and labeled data;
+		Select values ​​- removing duplicate residual columns generated during the Join;
+		Add constants - adding the 'effective_to' (Date) columns;
+		Get system info - adding the columns 'effective_from' (System date (variable)), 'created_at' (System date (variable));
+		Filter rows - filters data labeled as 'new' or 'deleted' to be persisted as new data;
+		Select values ​​- (Output TRUE from the 1st filter) removes columns used to label the data;
+		Table output - (Output TRUE from the 1st filter) writes the pipeline output to the table 'dw_fact.fato_importacao'
+		Filter rows - (Output FALSE from the 1st filter) filters data labeled as 'changed' to be persisted as modified data;
+		Update - (Output TRUE from the 2nd filter) updates the 'effective_to' field of the modified data to the current date (ends the validity);
+		Select values ​​- (Output TRUE from the 2nd filter) removes the data labeling columns and the old 'effective_to';
+		Add constants - (True output from the 2nd filter) adding the 'effective_to' column with a new expiration date for the modified data;
+		Table output - (True output from the 2nd filter) saves the data labeled as modified in the 'dw_fact.fato_importacao' table;
+		Dummy - (FALSE output from the 2nd filter) receives the data classified as identical and that do not need to be persisted in the DW.
