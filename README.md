@@ -390,7 +390,7 @@ networks:
     driver: bridge
 ```
 
-## Structure of the `Workflows Master` (orchestrator) in Apache Hop
+## Structure of the `Workflow Master` (orchestrator) in Apache Hop
 
 ![Workflow Master](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/Workflows/WF_COMEX_Master.png)
 
@@ -422,6 +422,20 @@ Data cleaning layer and 'assembly' of dimension and fact tables:
    >`WF_fact_loads.hwf`
 
 	PIPE_stg_to_fact_importacao.hpl
+
+## Result of constructing the `Fact Table`
+
+![Fact Table](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_dw_fact_fato_importacao.png)
+
+## Log Processing Results
+
+### Processing of logs from the `data discovery and extraction` layer:
+
+![Log Raw](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_raw_load_log.png)
+
+### Handling logs from the `dimension and fact table construction` layer:
+
+![Log Dw](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_dw_load_log.png)
 
 ## Contribution
 

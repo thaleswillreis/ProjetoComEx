@@ -389,7 +389,7 @@ networks:
   comex_net:
     driver: bridge
 ```
-## Estrutura do `Workflows Master` (orquestrador) no Apache Hop
+## Estrutura do `Workflow Master` (orquestrador) no Apache Hop
 
 ![Workflow Master](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/Workflows/WF_COMEX_Master.png)
 
@@ -421,6 +421,20 @@ Camada de limpeza de dados e 'montagem' das tabelas dimensão e fato:
    >`WF_fact_loads.hwf`
 
 	PIPE_stg_to_fact_importacao.hpl
+
+## Resultado da construção da `Tabela Fato`
+
+![Tabela Fato](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_dw_fact_fato_importacao.png)
+
+## Resultado do `Tratamento de Logs`
+
+### Tratamento dos logs da camada de `descoberta e extração de dados`:
+
+![Log Raw](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_raw_load_log.png)
+
+### Tratamento dos logs da camada de `construção das tabelas dimensão e fato`:
+
+![Log Dw](https://raw.githubusercontent.com/thaleswillreis/ProjetoComEx/main/doc/images/DadosDWeLog/Dados_dw_load_log.png)
 
 ## Contribuição
 
